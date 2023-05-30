@@ -19,6 +19,15 @@ public class Election {
     private Map<String, FederalDeputy> federalDeputyCandidates = new HashMap<String, FederalDeputy>();
     private Map<Voter, FederalDeputy> tempFDVote = new HashMap<Voter, FederalDeputy>();
 
+    protected Election(String password) {
+        this.password = password;
+        this.status = false;
+        this.nullFederalDeputyVotes = 0;
+        this.nullPresidentVotes = 0;
+        this.presidentProtestVotes = 0;
+        this.federalDeputyProtestVotes = 0;
+    }
+
     public static class Builder {
         protected String password;
 
@@ -28,24 +37,16 @@ public class Election {
         }
 
         public Election build() {
-            if (password == null)
+            if (password == null) {
                 throw new IllegalArgumentException("password mustn't be null");
+            }
 
-            if (password.isEmpty())
+            if (password.isEmpty()) {
                 throw new IllegalArgumentException("password mustn't be empty");
+            }
 
             return new Election(this.password);
         }
-    }
-
-    protected Election(
-            String password) {
-        this.password = password;
-        this.status = false;
-        this.nullFederalDeputyVotes = 0;
-        this.nullPresidentVotes = 0;
-        this.presidentProtestVotes = 0;
-        this.federalDeputyProtestVotes = 0;
     }
 
     private Boolean isValid(String password) {
@@ -54,17 +55,20 @@ public class Election {
 
     public void computeVote(Candidate candidate, Voter voter) {
         if (candidate instanceof President) {
-            if (votersPresident.get(voter) != null && votersPresident.get(voter) >= 1)
+            if (votersPresident.get(voter) != null && votersPresident.get(voter) >= 1) {
                 throw new StopTrap("Você não pode votar mais de uma vez para presidente");
+            }
 
             candidate.numVotes++;
             votersPresident.put(voter, 1);
         } else if (candidate instanceof FederalDeputy) {
-            if (votersFederalDeputy.get(voter) != null && votersFederalDeputy.get(voter) >= 2)
+            if (votersFederalDeputy.get(voter) != null && votersFederalDeputy.get(voter) >= 2) {
                 throw new StopTrap("Você não pode votar mais de uma vez para deputado federal");
+            }
 
-            if (tempFDVote.get(voter) != null && tempFDVote.get(voter).equals(candidate))
+            if (tempFDVote.get(voter) != null && tempFDVote.get(voter).equals(candidate)) {
                 throw new Warning("Você não pode votar mais de uma vez em um mesmo candidato");
+            }
 
             candidate.numVotes++;
             if (votersFederalDeputy.get(voter) == null) {
@@ -79,39 +83,46 @@ public class Election {
 
     public void computeNullVote(String type, Voter voter) {
         if (type.equals("President")) {
-            if (this.votersPresident.get(voter) != null && votersPresident.get(voter) >= 1)
+            if (this.votersPresident.get(voter) != null && votersPresident.get(voter) >= 1) {
                 throw new StopTrap("Você não pode votar mais de uma vez para presidente");
+            }
 
             this.nullPresidentVotes++;
             votersPresident.put(voter, 1);
         } else if (type.equals("FederalDeputy")) {
-            if (this.votersFederalDeputy.get(voter) != null && this.votersFederalDeputy.get(voter) >= 2)
+            if (this.votersFederalDeputy.get(voter) != null && this.votersFederalDeputy.get(voter) >= 2) {
                 throw new StopTrap("Você não pode votar mais de uma vez para deputado federal");
+            }
 
             this.nullFederalDeputyVotes++;
-            if (this.votersFederalDeputy.get(voter) == null)
+            if (this.votersFederalDeputy.get(voter) == null) {
                 votersFederalDeputy.put(voter, 1);
-            else
+
+            } else {
                 votersFederalDeputy.put(voter, this.votersFederalDeputy.get(voter) + 1);
+            }
         }
     }
 
     public void computeProtestVote(String type, Voter voter) {
         if (type.equals("President")) {
-            if (this.votersPresident.get(voter) != null && votersPresident.get(voter) >= 1)
+            if (this.votersPresident.get(voter) != null && votersPresident.get(voter) >= 1) {
                 throw new StopTrap("Você não pode votar mais de uma vez para presidente");
+            }
 
             this.presidentProtestVotes++;
             votersPresident.put(voter, 1);
         } else if (type.equals("FederalDeputy")) {
-            if (this.votersFederalDeputy.get(voter) != null && this.votersFederalDeputy.get(voter) >= 2)
+            if (this.votersFederalDeputy.get(voter) != null && this.votersFederalDeputy.get(voter) >= 2) {
                 throw new StopTrap("Você não pode votar mais de uma vez para deputado federal");
+            }
 
             this.federalDeputyProtestVotes++;
-            if (this.votersFederalDeputy.get(voter) == null)
+            if (this.votersFederalDeputy.get(voter) == null) {
                 votersFederalDeputy.put(voter, 1);
-            else
+            } else {
                 votersFederalDeputy.put(voter, this.votersFederalDeputy.get(voter) + 1);
+            }
         }
     }
 
@@ -120,15 +131,17 @@ public class Election {
     }
 
     public void start(String password) {
-        if (!isValid(password))
+        if (!isValid(password)) {
             throw new Warning("Senha inválida");
+        }
 
         this.status = true;
     }
 
     public void finish(String password) {
-        if (!isValid(password))
+        if (!isValid(password)) {
             throw new Warning("Senha inválida");
+        }
 
         this.status = false;
     }
@@ -138,19 +151,22 @@ public class Election {
     }
 
     public void addPresidentCandidate(President candidate, String password) {
-        if (!isValid(password))
+        if (!isValid(password)) {
             throw new Warning("Senha inválida");
+        }
 
-        if (this.presidentCandidates.get(candidate.number) != null)
+        if (this.presidentCandidates.get(candidate.number) != null) {
             throw new Warning("Numero de candidato indisponível");
+        }
 
         this.presidentCandidates.put(candidate.number, candidate);
 
     }
 
     public void removePresidentCandidate(President candidate, String password) {
-        if (!isValid(password))
+        if (!isValid(password)) {
             throw new Warning("Senha inválida");
+        }
 
         this.presidentCandidates.remove(candidate.number);
     }
@@ -160,28 +176,33 @@ public class Election {
     }
 
     public void addFederalDeputyCandidate(FederalDeputy candidate, String password) {
-        if (!isValid(password))
+        if (!isValid(password)) {
             throw new Warning("Senha inválida");
+        }
 
-        if (this.federalDeputyCandidates.get(candidate.state + candidate.number) != null)
+        if (this.federalDeputyCandidates.get(candidate.state + candidate.number) != null) {
             throw new Warning("Numero de candidato indisponível");
+        }
 
         this.federalDeputyCandidates.put(candidate.state + candidate.number, candidate);
     }
 
     public void removeFederalDeputyCandidate(FederalDeputy candidate, String password) {
-        if (!isValid(password))
+        if (!isValid(password)) {
             throw new Warning("Senha inválida");
+        }
 
         this.federalDeputyCandidates.remove(candidate.state + candidate.number);
     }
 
     public String getResults(String password) {
-        if (!isValid(password))
+        if (!isValid(password)) {
             throw new Warning("Senha inválida");
+        }
 
-        if (this.status)
+        if (this.status) {
             throw new StopTrap("Eleição ainda não finalizou, não é possível gerar o resultado");
+        }
 
         var decimalFormater = new DecimalFormat("0.00");
         var presidentRank = new ArrayList<President>();

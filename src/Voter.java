@@ -3,6 +3,12 @@ public class Voter {
     protected final String name;
     protected final String state;
 
+    protected Voter(String electoralCard, String name, String state) {
+        this.electoralCard = electoralCard;
+        this.name = name;
+        this.state = state;
+    }
+
     public static class Builder {
         private String electoralCard;
         private String name;
@@ -24,56 +30,59 @@ public class Voter {
         }
 
         public Voter build() {
-            if (electoralCard == null)
+            if (electoralCard == null) {
                 throw new IllegalArgumentException("electoralCard mustn't be null");
+            }
 
-            if (electoralCard.isEmpty())
+            if (electoralCard.isEmpty()) {
                 throw new IllegalArgumentException("electoralCard mustn't be empty");
+            }
 
-            if (name == null)
+            if (name == null) {
                 throw new IllegalArgumentException("name mustn't be null");
+            }
 
-            if (name.isEmpty())
+            if (name.isEmpty()) {
                 throw new IllegalArgumentException("name mustn't be empty");
+            }
 
-            if (state == null)
+            if (state == null) {
                 throw new IllegalArgumentException("state mustn't be null");
+            }
 
-            if (state.isEmpty())
+            if (state.isEmpty()) {
                 throw new IllegalArgumentException("state mustn't be empty");
+            }
 
             return new Voter(electoralCard, name, state);
         }
     }
 
-    protected Voter(String electoralCard, String name, String state) {
-        this.electoralCard = electoralCard;
-        this.name = name;
-        this.state = state;
-    }
-
     public void vote(int number, Election election, String type, Boolean isProtestVote) {
         if (type.equals("President")) {
-            if (isProtestVote)
+            if (isProtestVote) {
                 election.computeProtestVote("President", this);
-            else if (number == 0)
+            } else if (number == 0) {
                 election.computeNullVote("President", this);
-            else {
+            } else {
                 President candidate = election.getPresidentByNumber(number);
-                if (candidate == null)
+                if (candidate == null) {
                     throw new Warning("Número de candidato inválido");
+                }
                 election.computeVote(candidate, this);
             }
-        } else if (type.equals("FederalDeputy"))
-            if (number == 0)
+        } else if (type.equals("FederalDeputy")) {
+            if (number == 0) {
                 election.computeNullVote("FederalDeputy", this);
-            else if (isProtestVote)
+            } else if (isProtestVote) {
                 election.computeProtestVote("FederalDeputy", this);
-            else {
+            } else {
                 FederalDeputy candidate = election.getFederalDeputyByNumber(this.state, number);
-                if (candidate == null)
+                if (candidate == null) {
                     throw new Warning("Número de candidato inválido");
+                }
                 election.computeVote(candidate, this);
             }
+        }
     }
 }

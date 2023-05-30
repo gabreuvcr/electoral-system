@@ -1,4 +1,9 @@
 public class President extends Candidate {
+
+    protected President(String name, String party, int number) {
+        super(name, party, number);
+    }
+
     public static class Builder {
         protected String name;
         protected String party;
@@ -20,32 +25,27 @@ public class President extends Candidate {
         }
 
         public President build() {
-            if (number <= 0)
+            if (number <= 0) {
                 throw new IllegalArgumentException("number mustn't be less than or equal to 0");
+            }
 
-            if (name == null)
+            if (name == null) {
                 throw new IllegalArgumentException("name mustn't be null");
+            }
 
-            if (name.isEmpty())
+            if (name.isEmpty()) {
                 throw new IllegalArgumentException("name mustn't be empty");
+            }
 
-            if (party == null)
+            if (party == null) {
                 throw new IllegalArgumentException("party mustn't be null");
+            }
 
-            if (party.isEmpty())
+            if (party.isEmpty()) {
                 throw new IllegalArgumentException("party mustn't be empty");
+            }
 
-            return new President(
-                    this.name,
-                    this.party,
-                    this.number);
+            return new President(this.name, this.party, this.number);
         }
-    }
-
-    protected President(
-            String name,
-            String party,
-            int number) {
-        super(name, party, number);
     }
 }

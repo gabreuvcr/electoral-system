@@ -16,8 +16,10 @@ public class TSEEmployeeTest {
                 .password(password)
                 .build();
 
-        assertTrue("O nome do empregado do tse nao esta como definido pelo builder.",
-                tseEmployee.getUser().equals(user));
+        assertTrue(
+            "O nome do empregado do tse nao esta como definido pelo builder.",
+            tseEmployee.getUser().equals(user)
+        );
     }
 
     @Test
@@ -42,10 +44,14 @@ public class TSEEmployeeTest {
         tseEmployee.addCandidate(presidentCandidate1, currentElection, electionPassword);
         tseEmployee.addCandidate(federalDeputyCandidate1, currentElection, electionPassword);
 
-        assertTrue("O candidato a presidente não foi adicionado corretamente.",
-                currentElection.getPresidentByNumber(123).getName().equals("João"));
-        assertTrue("O candidato a deputado federal não foi adicionado corretamente.",
-                currentElection.getPresidentByNumber(12345).getName().equals("Carlos"));
+        assertTrue(
+            "O candidato a presidente não foi adicionado corretamente.",
+            currentElection.getPresidentByNumber(123).getName().equals("João")
+        );
+        assertTrue(
+            "O candidato a deputado federal não foi adicionado corretamente.",
+            currentElection.getPresidentByNumber(12345).getName().equals("Carlos")
+        );
     }
 
     @Test
@@ -73,9 +79,13 @@ public class TSEEmployeeTest {
         tseEmployee.removeCandidate(presidentCandidate1, currentElection, electionPassword);
         tseEmployee.removeCandidate(federalDeputyCandidate1, currentElection, electionPassword);
 
-        assertFalse("O candidato a presidente não foi removido corretamente.",
-                currentElection.getPresidentCandidates.containsKey(123));
-        assertFalse("O candidato a deputado federal não foi removido corretamente.",
-                currentElection.getFederalDeputyCandidates.containsKey(12345));
+        assertFalse(
+            "O candidato a presidente não foi removido corretamente.", 
+            currentElection.getPresidentCandidates.containsKey(123)
+        );
+        assertFalse(
+            "O candidato a deputado federal não foi removido corretamente.",
+            currentElection.getFederalDeputyCandidates.containsKey(12345)
+        );
     }
 }

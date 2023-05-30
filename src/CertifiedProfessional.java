@@ -1,5 +1,10 @@
 // Gerencia o processo eleitoral
 public class CertifiedProfessional extends TSEProfessional {
+    
+    protected CertifiedProfessional(String user, String password) {
+        super(user, password);
+    }
+
     public void startSession(Election election, String password) {
         election.start(password);
     }
@@ -27,28 +32,24 @@ public class CertifiedProfessional extends TSEProfessional {
         }
 
         public CertifiedProfessional build() {
-            if (user == null)
+            if (user == null) {
                 throw new IllegalArgumentException("user mustn't be null");
+            }
 
-            if (user.isEmpty())
+            if (user.isEmpty()) {
                 throw new IllegalArgumentException("user mustn't be empty");
+            }
 
-            if (password == null)
+            if (password == null) {
                 throw new IllegalArgumentException("password mustn't be null");
+            }
 
-            if (password.isEmpty())
+            if (password.isEmpty()) {
                 throw new IllegalArgumentException("password mustn't be empty");
+            }
 
-            return new CertifiedProfessional(
-                    this.user,
-                    this.password);
+            return new CertifiedProfessional(this.user, this.password);
         }
-    }
-
-    protected CertifiedProfessional(
-            String user,
-            String password) {
-        super(user, password);
     }
 
     public String getUser() {

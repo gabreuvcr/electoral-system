@@ -68,11 +68,11 @@ public class Urna {
             print("Olá, você é " + voter.name + " de " + voter.state + "?\n");
             print("(1) Sim\n(2) Não");
             int command = readInt();
-            if (command == 1)
+            if (command == 1) {
                 return voter;
-            else if (command == 2)
+            } else if (command == 2) {
                 print("Ok, você será redirecionado para o menu inicial");
-            else {
+            } else {
                 print("Entrada inválida, tente novamente");
                 return getVoter();
             }
@@ -84,18 +84,18 @@ public class Urna {
         print("(ext) Desistir");
         print("Digite o número do candidato escolhido por você para presidente:");
         String vote = readString();
-        if (vote.equals("ext"))
+        if (vote.equals("ext")) {
             throw new StopTrap("Saindo da votação");
-        // Branco
-        else if (vote.equals("br")) {
+        } else if (vote.equals("br")) { // Branco
             print("Você está votando branco\n");
             print("(1) Confirmar\n(2) Mudar voto");
             int confirm = readInt();
             if (confirm == 1) {
                 voter.vote(0, currentElection, "President", true);
                 return true;
-            } else
+            } else {
                 votePresident(voter);
+            }
         } else {
             try {
                 int voteNumber = Integer.parseInt(vote);
@@ -107,8 +107,9 @@ public class Urna {
                     if (confirm == 1) {
                         voter.vote(0, currentElection, "President", false);
                         return true;
-                    } else
+                    } else {
                         votePresident(voter);
+                    }
                 }
 
                 // Normal
@@ -124,8 +125,9 @@ public class Urna {
                 if (confirm == 1) {
                     voter.vote(voteNumber, currentElection, "President", false);
                     return true;
-                } else if (confirm == 2)
+                } else if (confirm == 2) {
                     return votePresident(voter);
+                }
             } catch (Warning e) {
                 print(e.getMessage());
                 return votePresident(voter);
@@ -138,15 +140,15 @@ public class Urna {
             }
         }
         return true;
-
     }
 
     private static boolean voteFederalDeputy(Voter voter, int counter) {
         print("(ext) Desistir");
         print("Digite o número do " + counter + "º candidato escolhido por você para deputado federal:\n");
         String vote = readString();
-        if (vote.equals("ext"))
+        if (vote.equals("ext")) {
             throw new StopTrap("Saindo da votação");
+        }
         // Branco
         if (vote.equals("br")) {
             print("Você está votando branco\n");
@@ -155,8 +157,9 @@ public class Urna {
             if (confirm == 1) {
                 voter.vote(0, currentElection, "FederalDeputy", true);
                 return true;
-            } else
+            } else {
                 return voteFederalDeputy(voter, counter);
+            }
         } else {
             try {
                 int voteNumber = Integer.parseInt(vote);
@@ -168,8 +171,9 @@ public class Urna {
                     if (confirm == 1) {
                         voter.vote(0, currentElection, "FederalDeputy", false);
                         return true;
-                    } else
+                    } else {
                         return voteFederalDeputy(voter, counter);
+                    }
                 }
 
                 // Normal
@@ -185,8 +189,9 @@ public class Urna {
                 if (confirm == 1) {
                     voter.vote(voteNumber, currentElection, "FederalDeputy", false);
                     return true;
-                } else if (confirm == 2)
+                } else if (confirm == 2) {
                     return voteFederalDeputy(voter, counter);
+                }
             } catch (Warning e) {
                 print(e.getMessage());
                 return voteFederalDeputy(voter, counter);
@@ -211,8 +216,9 @@ public class Urna {
             }
 
             Voter voter = getVoter();
-            if (voter == null)
-                return;
+
+            if (voter == null) return;
+
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
 
             print("Vamos começar!\n");
@@ -220,16 +226,19 @@ public class Urna {
                     "OBS:\n- A partir de agora caso você queira votar nulo você deve usar um numero composto de 0 (00 e 0000)\n- A partir de agora caso você queira votar branco você deve escrever br\n");
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
 
-            if (votePresident(voter))
+            if (votePresident(voter)) {
                 print("Voto para presidente registrado com sucesso");
+            }
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
 
-            if (voteFederalDeputy(voter, 1))
+            if (voteFederalDeputy(voter, 1)) {
                 print("Primeiro voto para deputado federal registrado com sucesso");
+            }
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
 
-            if (voteFederalDeputy(voter, 2))
+            if (voteFederalDeputy(voter, 2)) {
                 print("Segundo voto para deputado federal registrado com sucesso");
+            }
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
 
         } catch (Warning e) {
@@ -250,9 +259,10 @@ public class Urna {
         } else {
             print("Insira sua senha:");
             String password = readString();
+
             // Deveria ser um hash na pratica
-            if (tseProfessional.password.equals(password))
-                return tseProfessional;
+            if (tseProfessional.password.equals(password)) return tseProfessional;
+
             print("Senha inválida, tente novamente");
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
         }
@@ -398,8 +408,9 @@ public class Urna {
     private static void tseMenu() {
         try {
             TSEProfessional tseProfessional = getTSEProfessional();
-            if (tseProfessional == null)
-                return;
+
+            if (tseProfessional == null) return;
+
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
             boolean back = false;
             while (!back) {
@@ -444,8 +455,14 @@ public class Urna {
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
                 var voterData = data.split(",");
-                VoterMap.put(voterData[0],
-                        new Voter.Builder().electoralCard(voterData[0]).name(voterData[1]).state(voterData[2]).build());
+                VoterMap.put(
+                    voterData[0],
+                    new Voter.Builder()
+                        .electoralCard(voterData[0])
+                        .name(voterData[1])
+                        .state(voterData[2])
+                        .build()
+                );
             }
             myReader.close();
         } catch (Exception e) {
@@ -455,14 +472,20 @@ public class Urna {
     }
 
     private static void loadTSEProfessionals() {
-        TSEMap.put("cert", new CertifiedProfessional.Builder()
+        TSEMap.put(
+            "cert",
+            new CertifiedProfessional.Builder()
                 .user("cert")
                 .password("54321")
-                .build());
-        TSEMap.put("emp", new TSEEmployee.Builder()
+                .build()
+        );
+        TSEMap.put(
+            "emp",
+            new TSEEmployee.Builder()
                 .user("emp")
                 .password("12345")
-                .build());
+                .build()
+        );
     }
 
     public static void main(String[] args) {

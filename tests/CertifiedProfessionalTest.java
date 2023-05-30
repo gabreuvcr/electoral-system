@@ -17,8 +17,10 @@ public class CertifiedProfessionalTest {
                 .password(password)
                 .build();
 
-        assertTrue("O nome do empregado do tse nao esta como definido pelo builder.",
-                certifiedProfessional.getUser().equals(user));
+        assertTrue(
+            "O nome do empregado do tse nao esta como definido pelo builder.",
+            certifiedProfessional.getUser().equals(user)
+        );
     }
 
     @Test
@@ -37,7 +39,10 @@ public class CertifiedProfessionalTest {
 
         certifiedProfessional.startSession(election, electionPassword);
 
-        assertTrue("A eleicao nao foi iniciada como estperado.", election.getStatus() == true);
+        assertTrue(
+            "A eleicao nao foi iniciada como estperado.",
+            election.getStatus() == true
+        );
     }
 
     @Test
@@ -61,8 +66,10 @@ public class CertifiedProfessionalTest {
         String expectedMessage = "Senha inválida";
         String actualMessage = exception.getMessage();
 
-        assertTrue("A exception de senha incorreta não foi lançada como esperado.",
-                expectedMessage.equals(actualMessage));
+        assertTrue(
+            "A exception de senha incorreta não foi lançada como esperado.",
+            expectedMessage.equals(actualMessage)
+        );
     }
 
     @Test
@@ -82,7 +89,10 @@ public class CertifiedProfessionalTest {
         certifiedProfessional.startSession(election, electionPassword);
         certifiedProfessional.endSession(election, electionPassword);
 
-        assertTrue("A eleicao nao foi finalizadada como estperado.", election.getStatus() == false);
+        assertTrue(
+            "A eleicao nao foi finalizadada como estperado.",
+            election.getStatus() == false
+        );
     }
 
     @Test
@@ -107,8 +117,10 @@ public class CertifiedProfessionalTest {
         String expectedMessage = "Senha inválida";
         String actualMessage = exception.getMessage();
 
-        assertTrue("A exception de senha incorreta não foi lançada como esperado.",
-                expectedMessage.equals(actualMessage));
+        assertTrue(
+            "A exception de senha incorreta não foi lançada como esperado.",
+            expectedMessage.equals(actualMessage)
+        );
     }
 
     @Test
@@ -181,7 +193,10 @@ public class CertifiedProfessionalTest {
         ans += "    1º Carlos do PDS1 com 50,00% dos votos\n";
         ans += "    2º Cleber do PDS2 com 16,67% dos votos";
         currentElection.finish(electionPassword);
-        assertTrue("Resultado Incorreto para eleição criada",
-                currentElection.getResults(electionPassword).contains(ans));
+        
+        assertTrue(
+            "Resultado Incorreto para eleição criada",
+            currentElection.getResults(electionPassword).contains(ans)
+        );
     }
 }

@@ -11,7 +11,9 @@ public class TSEProfessionalTest {
 
         TSEProfessional tseProfessional = new TSEProfessional(user, password);
 
-        assertTrue("O nome do usuario do tse nao esta como definido pelo builder.",
-                tseProfessional.getUser().equals(user));
+        assertTrue(
+            "O nome do usuario do tse nao esta como definido pelo builder.",
+            tseProfessional.getUser().equals(user)
+        );
     }
 }

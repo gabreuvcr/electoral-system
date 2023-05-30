@@ -18,9 +18,21 @@ public class FederalDeputyTest {
                 .state(state)
                 .build();
 
-        assertTrue("O nome do candidato nao esta como definido pelo builder.", fedDeputy.getName().equals(name));
-        assertTrue("O partido do candidato nao esta como definido pelo builder.", fedDeputy.getParty().equals(party));
-        assertTrue("O numero do candidato nao esta como definido pelo builder.", fedDeputy.getNumber() == number);
-        assertTrue("O estado do candidato nao esta como definido pelo builder.", fedDeputy.getState().equals(state));
+        assertTrue(
+            "O nome do candidato nao esta como definido pelo builder.",
+            fedDeputy.getName().equals(name)
+        );
+        assertTrue(
+            "O partido do candidato nao esta como definido pelo builder.",
+            fedDeputy.getParty().equals(party)
+        );
+        assertTrue(
+            "O numero do candidato nao esta como definido pelo builder.",
+            fedDeputy.getNumber() == number
+        );
+        assertTrue(
+            "O estado do candidato nao esta como definido pelo builder.",
+            fedDeputy.getState().equals(state)
+        );
     }
 }

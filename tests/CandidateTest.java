@@ -12,9 +12,17 @@ public class CandidateTest {
 
         Candidate candidate = new Candidate(name, party, number);
 
-        assertTrue("O nome do candidato nao esta como definido pelo construtor.", candidate.getName().equals(name));
-        assertTrue("O partido do candidato nao esta como definido pelo construtor.",
-                candidate.getParty().equals(party));
-        assertTrue("O numero do candidato nao esta como definido pelo construtor.", candidate.getNumber() == number);
+        assertTrue(
+            "O nome do candidato nao esta como definido pelo construtor.", 
+            candidate.getName().equals(name)
+        );
+        assertTrue(
+            "O partido do candidato nao esta como definido pelo construtor.",
+            candidate.getParty().equals(party)
+        );
+        assertTrue(
+            "O numero do candidato nao esta como definido pelo construtor.",
+            candidate.getNumber() == number
+        );
     }
 }

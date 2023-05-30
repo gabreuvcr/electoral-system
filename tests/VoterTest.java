@@ -16,9 +16,17 @@ public class VoterTest {
                 .state(state)
                 .build();
 
-        assertTrue("O título de eleitor nao esta como definido pelo builder.",
-                voter.getElectoralCard().equals(electoralCard));
-        assertTrue("O nome do eleitor nao esta como definido pelo builder.", voter.getName().equals(name));
-        assertTrue("O estado do eleitor nao esta como definido pelo builder.", voter.getState().equals(state));
+        assertTrue(
+            "O título de eleitor nao esta como definido pelo builder.", 
+            voter.getElectoralCard().equals(electoralCard)
+        );
+        assertTrue(
+            "O nome do eleitor nao esta como definido pelo builder.",
+            voter.getName().equals(name)
+        );
+        assertTrue(
+            "O estado do eleitor nao esta como definido pelo builder.",
+            voter.getState().equals(state)
+        );
     }
 }
