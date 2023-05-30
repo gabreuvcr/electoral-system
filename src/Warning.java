@@ -1,7 +1,6 @@
- 
 
 public class Warning extends Error {
-  public Warning(String s) {
-    super(s);
-  }
+    public Warning(String s) {
+        super(s);
+    }
 }

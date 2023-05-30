@@ -1,47 +1,44 @@
 public class Candidate {
-  protected final String name;
+    protected final String name;
+    protected final String party;
+    protected final int number;
+    protected int numVotes;
 
-  protected final String party;
+    public Candidate(
+            String name,
+            String party,
+            int number) {
 
-  protected final int number;
+        if (name == null)
+            throw new IllegalArgumentException("name mustn't be null");
 
-  protected int numVotes;
+        if (name.isEmpty())
+            throw new IllegalArgumentException("name mustn't be empty");
 
-  public Candidate(
-      String name,
-      String party,
-      int number) {
+        if (party == null)
+            throw new IllegalArgumentException("party mustn't be empty");
 
-    if (name == null)
-      throw new IllegalArgumentException("name mustn't be null");
+        if (party.isEmpty())
+            throw new IllegalArgumentException("party mustn't be empty");
 
-    if (name.isEmpty())
-      throw new IllegalArgumentException("name mustn't be empty");
+        if (number <= 0)
+            throw new IllegalArgumentException("number must be greater or equal to 1");
 
-    if (party == null)
-      throw new IllegalArgumentException("party mustn't be empty");
+        this.name = name;
+        this.party = party;
+        this.number = number;
+        this.numVotes = 0;
+    }
 
-    if (party.isEmpty())
-      throw new IllegalArgumentException("party mustn't be empty");
+    public String getName() {
+        return this.name;
+    }
 
-    if (number <= 0)
-      throw new IllegalArgumentException("number must be greater or equal to 1");
+    public String getParty() {
+        return this.party;
+    }
 
-    this.name = name;
-    this.party = party;
-    this.number = number;
-    this.numVotes = 0;
-  }
-
-  public String getName() {
-    return this.name;
-  }
-
-  public String getParty() {
-    return this.party;
-  }
-
-  public int getNumber() {
-    return this.number;
-  }
+    public int getNumber() {
+        return this.number;
+    }
 }
