@@ -30,28 +30,16 @@ public class Voter {
         }
 
         public Voter build() {
-            if (electoralCard == null) {
-                throw new IllegalArgumentException("electoralCard mustn't be null");
+            if (electoralCard == null || electoralCard.isEmpty()) {
+                throw new IllegalArgumentException("electoralCard mustn't be null or empty");
             }
 
-            if (electoralCard.isEmpty()) {
-                throw new IllegalArgumentException("electoralCard mustn't be empty");
+            if (name == null || name.isEmpty()) {
+                throw new IllegalArgumentException("name mustn't be null or empty");
             }
 
-            if (name == null) {
-                throw new IllegalArgumentException("name mustn't be null");
-            }
-
-            if (name.isEmpty()) {
-                throw new IllegalArgumentException("name mustn't be empty");
-            }
-
-            if (state == null) {
-                throw new IllegalArgumentException("state mustn't be null");
-            }
-
-            if (state.isEmpty()) {
-                throw new IllegalArgumentException("state mustn't be empty");
+            if (state == null || state.isEmpty()) {
+                throw new IllegalArgumentException("state mustn't be null or empty");
             }
 
             return new Voter(electoralCard, name, state);

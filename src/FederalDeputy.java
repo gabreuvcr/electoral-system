@@ -39,28 +39,16 @@ public class FederalDeputy extends Candidate {
                 throw new IllegalArgumentException("number mustn't be less than or equal to 0");
             }
 
-            if (name == null) {
-                throw new IllegalArgumentException("name mustn't be null");
+            if (name == null || name.isEmpty()) {
+                throw new IllegalArgumentException("name mustn't be null or empty");
             }
 
-            if (name.isEmpty()) {
-                throw new IllegalArgumentException("name mustn't be empty");
+            if (party == null || party.isEmpty()) {
+                throw new IllegalArgumentException("party mustn't be null or empty");
             }
 
-            if (party == null) {
-                throw new IllegalArgumentException("party mustn't be null");
-            }
-
-            if (party.isEmpty()) {
-                throw new IllegalArgumentException("party mustn't be empty");
-            }
-
-            if (state == null) {
-                throw new IllegalArgumentException("state mustn't be null");
-            }
-
-            if (state.isEmpty()) {
-                throw new IllegalArgumentException("state mustn't be empty");
+            if (state == null || state.isEmpty()) {
+                throw new IllegalArgumentException("state mustn't be null or empty");
             }
 
             Set<String> validStates = Set.of(

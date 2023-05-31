@@ -5,20 +5,12 @@ public class Candidate {
     protected int numVotes;
 
     public Candidate(String name, String party, int number) {
-        if (name == null) {
-            throw new IllegalArgumentException("name mustn't be null");
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("name mustn't be null or empty");
         }
 
-        if (name.isEmpty()) {
-            throw new IllegalArgumentException("name mustn't be empty");
-        }
-
-        if (party == null) {
-            throw new IllegalArgumentException("party mustn't be empty");
-        }
-
-        if (party.isEmpty()) {
-            throw new IllegalArgumentException("party mustn't be empty");
+        if (party == null || party.isEmpty()) {
+            throw new IllegalArgumentException("party mustn't be empty or empty");
         }
 
         if (number <= 0) {

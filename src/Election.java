@@ -37,12 +37,8 @@ public class Election {
         }
 
         public Election build() {
-            if (password == null) {
-                throw new IllegalArgumentException("password mustn't be null");
-            }
-
-            if (password.isEmpty()) {
-                throw new IllegalArgumentException("password mustn't be empty");
+            if (password == null || password.isEmpty()) {
+                throw new IllegalArgumentException("password mustn't be null or empty");
             }
 
             return new Election(this.password);

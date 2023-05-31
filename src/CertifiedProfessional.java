@@ -32,20 +32,12 @@ public class CertifiedProfessional extends TSEProfessional {
         }
 
         public CertifiedProfessional build() {
-            if (user == null) {
-                throw new IllegalArgumentException("user mustn't be null");
+            if (user == null || user.isEmpty()) {
+                throw new IllegalArgumentException("user mustn't be null or empty");
             }
 
-            if (user.isEmpty()) {
-                throw new IllegalArgumentException("user mustn't be empty");
-            }
-
-            if (password == null) {
-                throw new IllegalArgumentException("password mustn't be null");
-            }
-
-            if (password.isEmpty()) {
-                throw new IllegalArgumentException("password mustn't be empty");
+            if (password == null || password.isEmpty()) {
+                throw new IllegalArgumentException("password mustn't be null or empty");
             }
 
             return new CertifiedProfessional(this.user, this.password);
