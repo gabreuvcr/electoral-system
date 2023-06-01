@@ -21,6 +21,7 @@ import static java.lang.System.exit;
 public class Urna {
     private final BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
     private boolean exit = false;
+    //TODO: Adicionar Repository Pattern aqui tambem
     private final Map<String, TSEProfessional> TSEMap = new HashMap<>();
     private final Map<String, Voter> VoterMap = new HashMap<>();
     private Election currentElection;

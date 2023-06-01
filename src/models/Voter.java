@@ -65,10 +65,10 @@ public class Voter {
                 election.computeVote(candidate, this);
             }
         } else if (type.equals("FederalDeputy")) {
-            if (number == 0) {
-                election.computeNullVote("FederalDeputy", this);
-            } else if (isProtestVote) {
+            if (isProtestVote) {
                 election.computeProtestVote("FederalDeputy", this);
+            } else if (number == 0) {
+                election.computeNullVote("FederalDeputy", this);
             } else {
                 FederalDeputy candidate = election.getFederalDeputyByNumber(this.state, number);
                 if (candidate == null) {
