@@ -2,8 +2,6 @@ package services;
 
 import errors.StopTrap;
 import errors.Warning;
-import interfaces.ITSEProfessionalRepository;
-import interfaces.IVoterRepository;
 import models.Candidate;
 import models.CertifiedProfessional;
 import models.FederalDeputy;
@@ -18,18 +16,10 @@ import java.io.InputStreamReader;
 public class Urna {
     private final BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
     private boolean exit = false;
-    private final ITSEProfessionalRepository tseProfessionalRepository;
-    private final IVoterRepository voterRepository;
-    private Election currentElection;
+    private Election currElection;
 
-    public Urna(
-        Election election,
-        ITSEProfessionalRepository tseProfessionalRepository,
-        IVoterRepository voterRepository
-    ) {
-        this.currentElection = election;
-        this.tseProfessionalRepository = tseProfessionalRepository;
-        this.voterRepository = voterRepository;
+    public Urna(Election election) {
+        this.currElection = election;
     }
 
     public void init() {      
@@ -84,7 +74,7 @@ public class Urna {
     private Voter getVoter() {
         print("Insira seu título de eleitor:");
         String electoralCard = readString();
-        Voter voter = this.voterRepository.getByElectoralCard(electoralCard);
+        Voter voter = this.currElection.getVoterByElectorCard(electoralCard);
         if (voter == null) {
             print("Eleitor não encontrado, por favor confirme se a entrada está correta e tente novamente");
         } else {
@@ -114,7 +104,7 @@ public class Urna {
             print("(1) Confirmar\n(2) Mudar voto");
             int confirm = readInt();
             if (confirm == 1) {
-                voter.vote(0, currentElection, "President", true);
+                voter.vote(0, currElection, "President", true);
                 return true;
             } else {
                 votePresident(voter);
@@ -128,7 +118,7 @@ public class Urna {
                     print("(1) Confirmar\n(2) Mudar voto");
                     int confirm = readInt();
                     if (confirm == 1) {
-                        voter.vote(0, currentElection, "President", false);
+                        voter.vote(0, currElection, "President", false);
                         return true;
                     } else {
                         votePresident(voter);
@@ -136,7 +126,7 @@ public class Urna {
                 }
 
                 // Normal
-                President candidate = currentElection.getPresidentByNumber(voteNumber);
+                President candidate = currElection.getPresidentByNumber(voteNumber);
                 if (candidate == null) {
                     print("Nenhum candidato encontrado com este número, tente novamente");
                     print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
@@ -146,7 +136,7 @@ public class Urna {
                 print("(1) Confirmar\n(2) Mudar voto");
                 int confirm = readInt();
                 if (confirm == 1) {
-                    voter.vote(voteNumber, currentElection, "President", false);
+                    voter.vote(voteNumber, currElection, "President", false);
                     return true;
                 } else if (confirm == 2) {
                     return votePresident(voter);
@@ -178,7 +168,7 @@ public class Urna {
             print("(1) Confirmar\n(2) Mudar voto");
             int confirm = readInt();
             if (confirm == 1) {
-                voter.vote(0, currentElection, "FederalDeputy", true);
+                voter.vote(0, currElection, "FederalDeputy", true);
                 return true;
             } else {
                 return voteFederalDeputy(voter, counter);
@@ -192,7 +182,7 @@ public class Urna {
                     print("(1) Confirmar\n(2) Mudar voto\n");
                     int confirm = readInt();
                     if (confirm == 1) {
-                        voter.vote(0, currentElection, "FederalDeputy", false);
+                        voter.vote(0, currElection, "FederalDeputy", false);
                         return true;
                     } else {
                         return voteFederalDeputy(voter, counter);
@@ -200,7 +190,7 @@ public class Urna {
                 }
 
                 // Normal
-                FederalDeputy candidate = currentElection.getFederalDeputyByNumber(voter.state, voteNumber);
+                FederalDeputy candidate = currElection.getFederalDeputyByNumber(voter.state, voteNumber);
                 if (candidate == null) {
                     print("Nenhum candidato encontrado com este número, tente novamente");
                     print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
@@ -210,7 +200,7 @@ public class Urna {
                 print("(1) Confirmar\n(2) Mudar voto");
                 int confirm = readInt();
                 if (confirm == 1) {
-                    voter.vote(voteNumber, currentElection, "FederalDeputy", false);
+                    voter.vote(voteNumber, currElection, "FederalDeputy", false);
                     return true;
                 } else if (confirm == 2) {
                     return voteFederalDeputy(voter, counter);
@@ -233,7 +223,7 @@ public class Urna {
     private void voterMenu() {
         try {
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
-            if (!currentElection.getStatus()) {
+            if (!currElection.getStatus()) {
                 print("A eleição ainda não foi inicializada, verifique com um funcionário do TSE");
                 return;
             }
@@ -276,7 +266,7 @@ public class Urna {
     private TSEProfessional getTSEProfessional() {
         print("Insira seu usuário:");
         String user = readString();
-        TSEProfessional tseProfessional = this.tseProfessionalRepository.getByUser(user);
+        TSEProfessional tseProfessional = this.currElection.getTSEProfessionalByUser(user);
         if (tseProfessional == null) {
             print("Funcionário do TSE não encontrado, por favor confirme se a entrada está correta e tente novamente");
         } else {
@@ -340,7 +330,7 @@ public class Urna {
         if (save == 1 && candidate != null) {
             print("Insira a senha da urna");
             String pwd = readString();
-            tseProfessional.addCandidate(candidate, currentElection, pwd);
+            tseProfessional.addCandidate(candidate, currElection, pwd);
             print("Candidato cadastrado com sucesso");
         }
     }
@@ -364,7 +354,7 @@ public class Urna {
             print("Qual o estado do candidato?");
             String state = readString();
 
-            candidate = currentElection.getFederalDeputyByNumber(state, number);
+            candidate = currElection.getFederalDeputyByNumber(state, number);
             if (candidate == null) {
                 print("Candidato não encontrado");
                 return;
@@ -373,7 +363,7 @@ public class Urna {
                     + candidate.party + "("
                     + ((FederalDeputy) candidate).state + ")?");
         } else if (candidateType == 1) {
-            candidate = currentElection.getPresidentByNumber(number);
+            candidate = currElection.getPresidentByNumber(number);
             if (candidate == null) {
                 print("Candidato não encontrado");
                 return;
@@ -388,7 +378,7 @@ public class Urna {
         if (remove == 1) {
             print("Insira a senha da urna:");
             String pwd = readString();
-            tseProfessional.removeCandidate(candidate, currentElection, pwd);
+            tseProfessional.removeCandidate(candidate, currElection, pwd);
             print("Candidato removido com sucesso");
         }
     }
@@ -397,7 +387,7 @@ public class Urna {
         try {
             print("Insira a senha da urna");
             String pwd = readString();
-            tseProfessional.startSession(currentElection, pwd);
+            tseProfessional.startSession(currElection, pwd);
             print("Sessão inicializada");
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
         } catch (Warning e) {
@@ -409,7 +399,7 @@ public class Urna {
         try {
             print("Insira a senha da urna:");
             String pwd = readString();
-            tseProfessional.endSession(currentElection, pwd);
+            tseProfessional.endSession(currElection, pwd);
             print("Sessão finalizada com sucesso");
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
         } catch (Warning e) {
@@ -421,7 +411,7 @@ public class Urna {
         try {
             print("Insira a senha da urna");
             String pwd = readString();
-            print(tseProfessional.getFinalResult(currentElection, pwd));
+            print(tseProfessional.getFinalResult(currElection, pwd));
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
         } catch (Warning e) {
             print(e.getMessage());

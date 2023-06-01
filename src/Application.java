@@ -13,14 +13,12 @@ public class Application {
             "password",
             new HashPresidentRepository(),
             new HashFederalDeputyRepository(),
-            new HashVoteRepository()
-        );
-
-        Urna urna = new Urna(
-            currElection,
+            new HashVoteRepository(),
             new HashTSEProfessionalRepository(),
             new HashVoterRepository()
         );
+
+        Urna urna = new Urna(currElection);
         urna.init();
     }
 }
