@@ -18,6 +18,7 @@ public class Election {
     private Map<Integer, President> presidentCandidates = new HashMap<Integer, President>();
     private Map<String, FederalDeputy> federalDeputyCandidates = new HashMap<String, FederalDeputy>();
     private Map<Voter, FederalDeputy> tempFDVote = new HashMap<Voter, FederalDeputy>();
+    private static Election instance;
 
     protected Election(String password) {
         this.password = password;
@@ -26,6 +27,13 @@ public class Election {
         this.nullPresidentVotes = 0;
         this.presidentProtestVotes = 0;
         this.federalDeputyProtestVotes = 0;
+    }
+
+    public static Election getInstance(String password) {
+        if (instance == null) {
+            instance = new Election(password);
+        }
+        return instance;
     }
 
     public static class Builder {
@@ -41,7 +49,7 @@ public class Election {
                 throw new IllegalArgumentException("password mustn't be null or empty");
             }
 
-            return new Election(this.password);
+            return Election.getInstance(this.password);
         }
     }
 

@@ -1,5 +1,5 @@
 ##  Decisões de projeto 
-- TODO
+- Adicionado padrão Singleton na classe Election por existir apenas uma eleição por execução
   
 ## Adições na implementação do sistema existente
 - Correção de indentações para 4 espaços
