@@ -2,6 +2,8 @@ package services;
 
 import errors.StopTrap;
 import errors.Warning;
+import interfaces.ITSEProfessionalRepository;
+import interfaces.IVoterRepository;
 import models.Candidate;
 import models.CertifiedProfessional;
 import models.FederalDeputy;
@@ -9,8 +11,6 @@ import models.President;
 import models.TSEEmployee;
 import models.TSEProfessional;
 import models.Voter;
-import repositories.ITSEProfessionalRepository;
-import repositories.IVoterRepository;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

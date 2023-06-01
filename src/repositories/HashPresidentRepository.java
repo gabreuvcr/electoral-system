@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import errors.Warning;
+import interfaces.IPresidentRepository;
 import models.President;
 
 public class HashPresidentRepository implements IPresidentRepository {
@@ -25,7 +26,7 @@ public class HashPresidentRepository implements IPresidentRepository {
 
     @Override
     public void addCandidate(President candidate) {
-        if (this.presidentCandidates.get(candidate.number) != null) {
+        if (this.getByNumber(candidate.number) != null) {
             throw new Warning("Numero de candidato indisponível");
         }
 

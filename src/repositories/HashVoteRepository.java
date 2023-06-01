@@ -3,6 +3,7 @@ package repositories;
 import java.util.HashMap;
 import java.util.Map;
 
+import interfaces.IVoteRepository;
 import models.Candidate;
 import models.FederalDeputy;
 import models.Voter;

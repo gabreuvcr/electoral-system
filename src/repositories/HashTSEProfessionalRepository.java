@@ -3,6 +3,7 @@ package repositories;
 import java.util.HashMap;
 import java.util.Map;
 
+import interfaces.ITSEProfessionalRepository;
 import models.CertifiedProfessional;
 import models.TSEEmployee;
 import models.TSEProfessional;

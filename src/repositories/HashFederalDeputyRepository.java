@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import errors.Warning;
+import interfaces.IFederalDeputyRepository;
 import models.FederalDeputy;
 
 public class HashFederalDeputyRepository implements IFederalDeputyRepository {
@@ -25,19 +26,21 @@ public class HashFederalDeputyRepository implements IFederalDeputyRepository {
 
     @Override
     public void addCandidate(FederalDeputy candidate) {
-        if (this.federalDeputyCandidates.get(candidate.state + candidate.number) != null) {
+        if (this.getByNumber(candidate.state + candidate.number) != null) {
             throw new Warning("Numero de candidato indisponível");
         }
 
         this.federalDeputyCandidates.put(
-                candidate.state + candidate.number,
-                candidate);
+            candidate.state + candidate.number,
+            candidate
+        );
     }
 
     @Override
     public void removeCandidate(FederalDeputy candidate) {
         this.federalDeputyCandidates.remove(
-                candidate.state + candidate.number);
+            candidate.state + candidate.number
+        );
     }
 
     @Override

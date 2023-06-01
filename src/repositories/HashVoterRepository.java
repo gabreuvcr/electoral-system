@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+
+import interfaces.IVoterRepository;
+
 import static java.lang.System.exit;
 
 import models.Voter;

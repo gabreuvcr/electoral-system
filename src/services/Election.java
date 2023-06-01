@@ -5,13 +5,13 @@ import java.util.stream.Collectors;
 
 import errors.StopTrap;
 import errors.Warning;
+import interfaces.IFederalDeputyRepository;
+import interfaces.IPresidentRepository;
+import interfaces.IVoteRepository;
 import models.Candidate;
 import models.FederalDeputy;
 import models.President;
 import models.Voter;
-import repositories.IFederalDeputyRepository;
-import repositories.IPresidentRepository;
-import repositories.IVoteRepository;
 
 import java.text.DecimalFormat;
 
