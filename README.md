@@ -1,3 +1,14 @@
+##  Decisões de projeto 
+- TODO
+  
+## Adições na implementação do sistema existente
+- Correção de indentações para 4 espaços
+- Adição de chaves " { } " em estruturas condicionais
+- Simplificação de verificações para redução de estruturas condicionais
+
+## Execução de produtos da LPS 
+- TODO
+  
 ## Dependencias
 
 - [Java Developer Kit (JDK) 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
