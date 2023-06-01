@@ -10,8 +10,8 @@
 - Separação dos arquivos em pastas
 - Início do sistema pela classe Application, que possui apenas o método main e instancia as classes concretas e injeta as dependências
 - Corrigido bug onde votos brancos para Deputados Federais estavam contando como nulo.
-- Todas pré-carregamentos (Presidentes, Deputados, Eleitores) agora é realizado nos seus respectivos repositorios
-- Removido padrão Builder pré-existente da classe Election (Não fazia muito sentido).
+- Todas pré-carregamentos (Presidentes, Deputados, Eleitores) agora são realizados nos seus respectivos repositorios
+- Removido padrão Builder pré-existente da classe Election (não fazia muito sentido).
 
 ## Execução de produtos da LPS 
 - TODO
