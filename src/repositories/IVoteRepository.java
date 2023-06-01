@@ -3,7 +3,7 @@ package repositories;
 import models.Candidate;
 import models.Voter;
 
-public interface IVotesRepository {
+public interface IVoteRepository {
     void addVoteForPresident(Voter voter);
     void addVoteForFederalDeputy(Voter voter);
     void addVoteForFederalDeputy(Voter voter, Candidate candidate);

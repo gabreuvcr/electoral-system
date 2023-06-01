@@ -8,17 +8,16 @@ import services.Urna;
 
 public class Application {
     public static void main(String[] args) {
-        String electionPassword = "password";
-
-        Election currentElection = new Election.Builder()
-                .password(electionPassword)
-                .presidentRepository(new HashPresidentRepository())
-                .federalDeputyRepository(new HashFederalDeputyRepository())
-                .votesRepository(new HashVoteRepository())
-                .build();
+        
+        Election currElection = Election.getInstance(
+            "password",
+            new HashPresidentRepository(),
+            new HashFederalDeputyRepository(),
+            new HashVoteRepository()
+        );
 
         Urna urna = new Urna(
-            currentElection,
+            currElection,
             new HashTSEProfessionalRepository(),
             new HashVoterRepository()
         );
