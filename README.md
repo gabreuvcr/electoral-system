@@ -1,12 +1,16 @@
 ##  Decisões de projeto 
 - Adicionado padrão Singleton na classe Election por existir apenas uma eleição por execução
+- Adicionado padrão Repository. Agora as classes apenas possuem um contrato via interface das funções disponíveis, fazendo com que as implementações de persistência de dados sejam facilmente alteradas.
   
 ## Adições na implementação do sistema existente
 - Correção de indentações para 4 espaços
 - Adição de chaves " { } " em estruturas condicionais
 - Simplificação de verificações para redução de estruturas condicionais
+- Adicionado Singleton
 - Separação dos arquivos em pastas
-- Início do sistema pela classe Application
+- Início do sistema pela classe Application, que possui apenas o método main e instancia as classes concretas e injeta as dependências
+- loadCandidates agora é chamado na classe Election
+- Corrigido bug onde votos brancos para Deputados Federais estavam contando como nulo.
 
 ## Execução de produtos da LPS 
 - TODO
