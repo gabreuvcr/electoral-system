@@ -1,13 +1,20 @@
 package repositories;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
+import static java.lang.System.exit;
 
 import models.Voter;
 
 public class HashVoterRepository implements IVoterRepository{
     private final Map<String, Voter> voters = new HashMap<>();
     
+    public HashVoterRepository() {
+        this.preLoad();
+    }
+
     @Override
     public Voter getByElectoralCard(String electoralCard) {
         return this.voters.get(electoralCard);
@@ -17,5 +24,28 @@ public class HashVoterRepository implements IVoterRepository{
     public void addVoter(String electoralCard, Voter voter) {
         this.voters.put(electoralCard, voter);
     }
-    
+
+    @Override
+    public void preLoad() {
+        try {
+            File myObj = new File("voterLoad.txt");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                var voterData = data.split(",");
+                this.addVoter(
+                    voterData[0],
+                    new Voter.Builder()
+                        .electoralCard(voterData[0])
+                        .name(voterData[1])
+                        .state(voterData[2])
+                        .build()
+                );
+            }
+            myReader.close();
+        } catch (Exception e) {
+            System.out.println("Erro na inicialização dos dados");
+            exit(1);
+        }
+    }
 }

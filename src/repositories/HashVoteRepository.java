@@ -7,7 +7,7 @@ import models.Candidate;
 import models.FederalDeputy;
 import models.Voter;
 
-public class HashVotesRepository implements IVotesRepository{
+public class HashVoteRepository implements IVotesRepository{
     private Map<Voter, Integer> votersPresident = new HashMap<Voter, Integer>();
     private Map<Voter, Integer> votersFederalDeputy = new HashMap<Voter, Integer>();
     private Map<Voter, FederalDeputy> tempFDVote = new HashMap<Voter, FederalDeputy>();

@@ -2,7 +2,7 @@ import repositories.HashFederalDeputyRepository;
 import repositories.HashPresidentRepository;
 import repositories.HashTSEProfessionalRepository;
 import repositories.HashVoterRepository;
-import repositories.HashVotesRepository;
+import repositories.HashVoteRepository;
 import services.Election;
 import services.Urna;
 
@@ -14,7 +14,7 @@ public class Application {
                 .password(electionPassword)
                 .presidentRepository(new HashPresidentRepository())
                 .federalDeputyRepository(new HashFederalDeputyRepository())
-                .votesRepository(new HashVotesRepository())
+                .votesRepository(new HashVoteRepository())
                 .build();
 
         Urna urna = new Urna(

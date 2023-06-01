@@ -9,6 +9,10 @@ import models.FederalDeputy;
 public class HashFederalDeputyRepository implements IFederalDeputyRepository {
     private Map<String, FederalDeputy> federalDeputyCandidates = new HashMap<String, FederalDeputy>();
 
+    public HashFederalDeputyRepository() {
+        this.preLoad();
+    }
+
     @Override
     public FederalDeputy getByNumber(String number) {
         return this.federalDeputyCandidates.get(number);
@@ -26,15 +30,27 @@ public class HashFederalDeputyRepository implements IFederalDeputyRepository {
         }
 
         this.federalDeputyCandidates.put(
-            candidate.state + candidate.number,
-            candidate
-        );
+                candidate.state + candidate.number,
+                candidate);
     }
 
     @Override
     public void removeCandidate(FederalDeputy candidate) {
         this.federalDeputyCandidates.remove(
-            candidate.state + candidate.number
-        );
+                candidate.state + candidate.number);
+    }
+
+    @Override
+    public void preLoad() {
+        FederalDeputy federalDeputyCandidate1 = new FederalDeputy.Builder()
+            .name("Carlos").number(12345).party("PDS1").state("MG").build();
+        FederalDeputy federalDeputyCandidate2 = new FederalDeputy.Builder()
+            .name("Cleber").number(54321).party("PDS2").state("MG").build();
+        FederalDeputy federalDeputyCandidate3 = new FederalDeputy.Builder()
+            .name("Sofia").number(11211).party("IHC").state("MG").build();
+        
+        this.addCandidate(federalDeputyCandidate1);
+        this.addCandidate(federalDeputyCandidate2);
+        this.addCandidate(federalDeputyCandidate3);
     }
 }

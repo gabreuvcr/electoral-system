@@ -9,4 +9,5 @@ public interface IFederalDeputyRepository {
     FederalDeputy getByNumber(String number);
     Map<String, FederalDeputy> getCandidates();
     void removeCandidate(FederalDeputy candidate);
+    void preLoad();
 }

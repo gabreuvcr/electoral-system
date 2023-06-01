@@ -1,5 +1,4 @@
 package services;
-import java.util.Scanner;
 
 import errors.StopTrap;
 import errors.Warning;
@@ -15,8 +14,6 @@ import repositories.IVoterRepository;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.File;
-import static java.lang.System.exit;
 
 public class Urna {
     private final BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
@@ -35,11 +32,7 @@ public class Urna {
         this.voterRepository = voterRepository;
     }
 
-    public void init() {
-        // Startar todo os eleitores e profissionais do TSE
-        loadVoters();
-        loadTSEProfessionals();
-        
+    public void init() {      
         startMenu();
     }
 
@@ -476,45 +469,5 @@ public class Urna {
         } catch (Exception e) {
             print("Ocorreu um erro inesperado");
         }
-    }
-
-    private void loadVoters() {
-        try {
-            File myObj = new File("voterLoad.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                var voterData = data.split(",");
-                this.voterRepository.addVoter(
-                    voterData[0],
-                    new Voter.Builder()
-                        .electoralCard(voterData[0])
-                        .name(voterData[1])
-                        .state(voterData[2])
-                        .build()
-                );
-            }
-            myReader.close();
-        } catch (Exception e) {
-            print("Erro na inicialização dos dados");
-            exit(1);
-        }
-    }
-
-    private void loadTSEProfessionals() {
-        this.tseProfessionalRepository.addTSEProfessional(
-            "cert",
-            new CertifiedProfessional.Builder()
-                .user("cert")
-                .password("54321")
-                .build()
-        );
-        this.tseProfessionalRepository.addTSEProfessional(
-            "emp",
-            new TSEEmployee.Builder()
-                .user("emp")
-                .password("12345")
-                .build()
-        );
     }
 }

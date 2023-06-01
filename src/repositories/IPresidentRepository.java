@@ -9,4 +9,5 @@ public interface IPresidentRepository {
     Map<Integer, President> getCandidates();
     void addCandidate(President candidate);
     void removeCandidate(President candidate);
+    void preLoad();
 }

@@ -9,8 +9,8 @@
 - Adicionado Singleton
 - Separação dos arquivos em pastas
 - Início do sistema pela classe Application, que possui apenas o método main e instancia as classes concretas e injeta as dependências
-- loadCandidates agora é chamado na classe Election
 - Corrigido bug onde votos brancos para Deputados Federais estavam contando como nulo.
+- Todas pré-carregamentos (Presidentes, Deputados, Eleitores) agora é realizado nos seus respectivos repositorios.
 
 ## Execução de produtos da LPS 
 - TODO
