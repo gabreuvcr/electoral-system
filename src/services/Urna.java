@@ -1,5 +1,4 @@
 package services;
-import java.util.HashMap;
 import java.util.Scanner;
 
 import errors.StopTrap;
@@ -11,8 +10,9 @@ import models.President;
 import models.TSEEmployee;
 import models.TSEProfessional;
 import models.Voter;
+import repositories.ITSEProfessionalRepository;
+import repositories.IVoterRepository;
 
-import java.util.Map;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.File;
@@ -21,13 +21,18 @@ import static java.lang.System.exit;
 public class Urna {
     private final BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
     private boolean exit = false;
-    //TODO: Adicionar Repository Pattern aqui tambem
-    private final Map<String, TSEProfessional> TSEMap = new HashMap<>();
-    private final Map<String, Voter> VoterMap = new HashMap<>();
+    private final ITSEProfessionalRepository tseProfessionalRepository;
+    private final IVoterRepository voterRepository;
     private Election currentElection;
 
-    public Urna(Election election) {
-        currentElection = election;
+    public Urna(
+        Election election,
+        ITSEProfessionalRepository tseProfessionalRepository,
+        IVoterRepository voterRepository
+    ) {
+        this.currentElection = election;
+        this.tseProfessionalRepository = tseProfessionalRepository;
+        this.voterRepository = voterRepository;
     }
 
     public void init() {
@@ -86,7 +91,7 @@ public class Urna {
     private Voter getVoter() {
         print("Insira seu título de eleitor:");
         String electoralCard = readString();
-        Voter voter = VoterMap.get(electoralCard);
+        Voter voter = this.voterRepository.getByElectoralCard(electoralCard);
         if (voter == null) {
             print("Eleitor não encontrado, por favor confirme se a entrada está correta e tente novamente");
         } else {
@@ -278,7 +283,7 @@ public class Urna {
     private TSEProfessional getTSEProfessional() {
         print("Insira seu usuário:");
         String user = readString();
-        TSEProfessional tseProfessional = TSEMap.get(user);
+        TSEProfessional tseProfessional = this.tseProfessionalRepository.getByUser(user);
         if (tseProfessional == null) {
             print("Funcionário do TSE não encontrado, por favor confirme se a entrada está correta e tente novamente");
         } else {
@@ -480,7 +485,7 @@ public class Urna {
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
                 var voterData = data.split(",");
-                VoterMap.put(
+                this.voterRepository.addVoter(
                     voterData[0],
                     new Voter.Builder()
                         .electoralCard(voterData[0])
@@ -497,14 +502,14 @@ public class Urna {
     }
 
     private void loadTSEProfessionals() {
-        TSEMap.put(
+        this.tseProfessionalRepository.addTSEProfessional(
             "cert",
             new CertifiedProfessional.Builder()
                 .user("cert")
                 .password("54321")
                 .build()
         );
-        TSEMap.put(
+        this.tseProfessionalRepository.addTSEProfessional(
             "emp",
             new TSEEmployee.Builder()
                 .user("emp")
