@@ -13,6 +13,7 @@
 - Todas pré-carregamentos (Presidentes, Deputados, Eleitores) agora são realizados nos seus respectivos repositorios
 - Removido padrão Builder pré-existente da classe Election (não fazia muito sentido)
 - Todos repositorios estão na classe Election. Agora a Urna (que precisa ser o "frontend") apenas utiliza os serviços fornecidos por Election e pelos modelos.
+- Resultado da eleição agora é gerado por uma classe específica nomeada ElectionResult invocada por Election.
 
 ## Execução de produtos da LPS 
 - TODO
