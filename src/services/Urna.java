@@ -1,5 +1,17 @@
+package services;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import errors.StopTrap;
+import errors.Warning;
+import models.Candidate;
+import models.CertifiedProfessional;
+import models.FederalDeputy;
+import models.President;
+import models.TSEEmployee;
+import models.TSEProfessional;
+import models.Voter;
+
 import java.util.Map;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -7,17 +19,29 @@ import java.io.File;
 import static java.lang.System.exit;
 
 public class Urna {
-    private static final BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
-    private static boolean exit = false;
-    private static final Map<String, TSEProfessional> TSEMap = new HashMap<>();
-    private static final Map<String, Voter> VoterMap = new HashMap<>();
-    private static Election currentElection;
+    private final BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
+    private boolean exit = false;
+    private final Map<String, TSEProfessional> TSEMap = new HashMap<>();
+    private final Map<String, Voter> VoterMap = new HashMap<>();
+    private Election currentElection;
 
-    private static void print(String output) {
+    public Urna(Election election) {
+        currentElection = election;
+    }
+
+    public void init() {
+        // Startar todo os eleitores e profissionais do TSE
+        loadVoters();
+        loadTSEProfessionals();
+        
+        startMenu();
+    }
+
+    private void print(String output) {
         System.out.println(output);
     }
 
-    private static String readString() {
+    private String readString() {
         try {
             return scanner.readLine();
         } catch (Exception e) {
@@ -27,7 +51,7 @@ public class Urna {
         }
     }
 
-    private static int readInt() {
+    private int readInt() {
         try {
             return Integer.parseInt(readString());
         } catch (Exception e) {
@@ -37,7 +61,7 @@ public class Urna {
         }
     }
 
-    private static void startMenu() {
+    private void startMenu() {
         try {
             while (!exit) {
                 print("Escolha uma opção:\n");
@@ -58,7 +82,7 @@ public class Urna {
         }
     }
 
-    private static Voter getVoter() {
+    private Voter getVoter() {
         print("Insira seu título de eleitor:");
         String electoralCard = readString();
         Voter voter = VoterMap.get(electoralCard);
@@ -80,7 +104,7 @@ public class Urna {
         return null;
     }
 
-    private static boolean votePresident(Voter voter) {
+    private boolean votePresident(Voter voter) {
         print("(ext) Desistir");
         print("Digite o número do candidato escolhido por você para presidente:");
         String vote = readString();
@@ -142,7 +166,7 @@ public class Urna {
         return true;
     }
 
-    private static boolean voteFederalDeputy(Voter voter, int counter) {
+    private boolean voteFederalDeputy(Voter voter, int counter) {
         print("(ext) Desistir");
         print("Digite o número do " + counter + "º candidato escolhido por você para deputado federal:\n");
         String vote = readString();
@@ -207,7 +231,7 @@ public class Urna {
 
     }
 
-    private static void voterMenu() {
+    private void voterMenu() {
         try {
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
             if (!currentElection.getStatus()) {
@@ -250,7 +274,7 @@ public class Urna {
         }
     }
 
-    private static TSEProfessional getTSEProfessional() {
+    private TSEProfessional getTSEProfessional() {
         print("Insira seu usuário:");
         String user = readString();
         TSEProfessional tseProfessional = TSEMap.get(user);
@@ -269,7 +293,7 @@ public class Urna {
         return null;
     }
 
-    private static void addCandidate(TSEEmployee tseProfessional) {
+    private void addCandidate(TSEEmployee tseProfessional) {
         print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
         print("Qual a categoria de seu candidato?\n");
         print("(1) Presidente");
@@ -322,7 +346,7 @@ public class Urna {
         }
     }
 
-    private static void removeCandidate(TSEEmployee tseProfessional) {
+    private void removeCandidate(TSEEmployee tseProfessional) {
         print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
         print("Qual a categoria de seu candidato?");
         print("(1) Presidente");
@@ -370,7 +394,7 @@ public class Urna {
         }
     }
 
-    private static void startSession(CertifiedProfessional tseProfessional) {
+    private void startSession(CertifiedProfessional tseProfessional) {
         try {
             print("Insira a senha da urna");
             String pwd = readString();
@@ -382,7 +406,7 @@ public class Urna {
         }
     }
 
-    private static void endSession(CertifiedProfessional tseProfessional) {
+    private void endSession(CertifiedProfessional tseProfessional) {
         try {
             print("Insira a senha da urna:");
             String pwd = readString();
@@ -394,7 +418,7 @@ public class Urna {
         }
     }
 
-    private static void showResults(CertifiedProfessional tseProfessional) {
+    private void showResults(CertifiedProfessional tseProfessional) {
         try {
             print("Insira a senha da urna");
             String pwd = readString();
@@ -405,7 +429,7 @@ public class Urna {
         }
     }
 
-    private static void tseMenu() {
+    private void tseMenu() {
         try {
             TSEProfessional tseProfessional = getTSEProfessional();
 
@@ -448,7 +472,7 @@ public class Urna {
         }
     }
 
-    private static void loadVoters() {
+    private void loadVoters() {
         try {
             File myObj = new File("voterLoad.txt");
             Scanner myReader = new Scanner(myObj);
@@ -471,7 +495,7 @@ public class Urna {
         }
     }
 
-    private static void loadTSEProfessionals() {
+    private void loadTSEProfessionals() {
         TSEMap.put(
             "cert",
             new CertifiedProfessional.Builder()
@@ -486,35 +510,5 @@ public class Urna {
                 .password("12345")
                 .build()
         );
-    }
-
-    public static void main(String[] args) {
-
-        // Startup the current election instance
-        String electionPassword = "password";
-
-        currentElection = new Election.Builder()
-                .password(electionPassword)
-                .build();
-
-        President presidentCandidate1 = new President.Builder().name("João").number(123).party("PDS1").build();
-        currentElection.addPresidentCandidate(presidentCandidate1, electionPassword);
-        President presidentCandidate2 = new President.Builder().name("Maria").number(124).party("ED").build();
-        currentElection.addPresidentCandidate(presidentCandidate2, electionPassword);
-        FederalDeputy federalDeputyCandidate1 = new FederalDeputy.Builder().name("Carlos").number(12345).party("PDS1")
-                .state("MG").build();
-        currentElection.addFederalDeputyCandidate(federalDeputyCandidate1, electionPassword);
-        FederalDeputy federalDeputyCandidate2 = new FederalDeputy.Builder().name("Cleber").number(54321).party("PDS2")
-                .state("MG").build();
-        currentElection.addFederalDeputyCandidate(federalDeputyCandidate2, electionPassword);
-        FederalDeputy federalDeputyCandidate3 = new FederalDeputy.Builder().name("Sofia").number(11211).party("IHC")
-                .state("MG").build();
-        currentElection.addFederalDeputyCandidate(federalDeputyCandidate3, electionPassword);
-
-        // Startar todo os eleitores e profissionais do TSE
-        loadVoters();
-        loadTSEProfessionals();
-
-        startMenu();
     }
 }

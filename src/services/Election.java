@@ -1,7 +1,16 @@
+package services;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import errors.StopTrap;
+import errors.Warning;
+import models.Candidate;
+import models.FederalDeputy;
+import models.President;
+import models.Voter;
+
 import java.text.DecimalFormat;
 
 public class Election {

@@ -3,10 +3,10 @@ full:
 	make run
 
 build: 
-	cd "$(shell pwd)/src"  && javac Urna.java
+	cd "$(shell pwd)/src"  && javac Application.java
 
 run: 
-	cd "$(shell pwd)/src" && java Urna
+	cd "$(shell pwd)/src" && java Application
 
 clean:
 	rm **/*.class

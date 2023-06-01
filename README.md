@@ -5,6 +5,8 @@
 - Correção de indentações para 4 espaços
 - Adição de chaves " { } " em estruturas condicionais
 - Simplificação de verificações para redução de estruturas condicionais
+- Separação dos arquivos em pastas
+- Início do sistema pela classe Application
 
 ## Execução de produtos da LPS 
 - TODO

@@ -1,8 +1,10 @@
+package models;
+
 public class Candidate {
-    protected final String name;
-    protected final String party;
-    protected final int number;
-    protected int numVotes;
+    public final String name;
+    public final String party;
+    public final int number;
+    public int numVotes;
 
     public Candidate(String name, String party, int number) {
         if (name == null || name.isEmpty()) {

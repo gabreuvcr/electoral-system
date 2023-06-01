@@ -1,7 +1,12 @@
+package models;
+
+import errors.Warning;
+import services.Election;
+
 public class Voter {
-    protected final String electoralCard;
-    protected final String name;
-    protected final String state;
+    public final String electoralCard;
+    public final String name;
+    public final String state;
 
     protected Voter(String electoralCard, String name, String state) {
         this.electoralCard = electoralCard;

@@ -1,3 +1,5 @@
+package models;
+
 public class President extends Candidate {
 
     protected President(String name, String party, int number) {

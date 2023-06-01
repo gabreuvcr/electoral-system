@@ -1,4 +1,7 @@
-// Gerencia a preparação do ambiente (candidatos)
+package models;
+
+import services.Election;
+
 public class TSEEmployee extends TSEProfessional {
 
     protected TSEEmployee(String user, String password) {

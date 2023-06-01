@@ -1,7 +1,9 @@
+package models;
+
 import java.util.Set;
 
 public class FederalDeputy extends Candidate {
-    protected final String state;
+    public final String state;
 
     protected FederalDeputy(String name, String party, int number, String state) {
         super(name, party, number);

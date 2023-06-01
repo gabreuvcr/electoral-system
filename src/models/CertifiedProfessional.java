@@ -1,4 +1,7 @@
-// Gerencia o processo eleitoral
+package models;
+
+import services.Election;
+
 public class CertifiedProfessional extends TSEProfessional {
     
     protected CertifiedProfessional(String user, String password) {
