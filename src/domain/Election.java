@@ -181,7 +181,7 @@ public class Election {
             throw new StopTrap("Eleição ainda não finalizou, não é possível gerar o resultado");
         }
 
-        return ElectionResult.produceResult(
+        return ElectionResult.produce(
             this.presidentRepository.getCandidates(), 
             this.federalDeputyRepository.getCandidates(), 
             this.voteRepository.getProtestVotesPresident(), 

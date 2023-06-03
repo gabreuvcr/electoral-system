@@ -38,11 +38,7 @@ public class HashVoteRepository implements IVoteRepository{
 
     @Override
     public void addVoteForFederalDeputy(Voter voter, FederalDeputy federalDeputy) {
-        if (tempFDVote.get(voter) != null) {
-            tempFDVote.remove(voter);
-        } else {
-            tempFDVote.put(voter, federalDeputy);
-        }
+        tempFDVote.put(voter, federalDeputy);
         votersFederalDeputy.put(voter, votersFederalDeputy.getOrDefault(voter, 0) + 1);
         federalDeputy.numVotes++;
     }
