@@ -1,12 +1,12 @@
-package repositories;
+package data.repositories;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import interfaces.ITSEProfessionalRepository;
-import models.CertifiedProfessional;
-import models.TSEEmployee;
-import models.TSEProfessional;
+import domain.CertifiedProfessional;
+import domain.TSEEmployee;
+import domain.TSEProfessional;
+import domain.interfaces.ITSEProfessionalRepository;
 
 public class HashTSEProfessionalRepository implements ITSEProfessionalRepository {
     private final Map<String, TSEProfessional> tseProfessionals = new HashMap<>();

@@ -1,11 +1,11 @@
-package repositories;
+package data.repositories;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import domain.FederalDeputy;
+import domain.interfaces.IFederalDeputyRepository;
 import errors.Warning;
-import interfaces.IFederalDeputyRepository;
-import models.FederalDeputy;
 
 public class HashFederalDeputyRepository implements IFederalDeputyRepository {
     private Map<String, FederalDeputy> federalDeputyCandidates = new HashMap<String, FederalDeputy>();

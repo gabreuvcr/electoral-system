@@ -1,6 +1,4 @@
-package models;
-
-import services.Election;
+package domain;
 
 public class CertifiedProfessional extends TSEProfessional {
     

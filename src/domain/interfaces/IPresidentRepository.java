@@ -1,8 +1,8 @@
-package interfaces;
+package domain.interfaces;
 
 import java.util.Map;
 
-import models.President;
+import domain.President;
 
 public interface IPresidentRepository {
     President getByNumber(int number);

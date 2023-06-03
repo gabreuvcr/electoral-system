@@ -1,7 +1,7 @@
-package interfaces;
+package domain.interfaces;
 
-import models.Candidate;
-import models.Voter;
+import domain.Candidate;
+import domain.Voter;
 
 public interface IVoteRepository {
     void addVoteForPresident(Voter voter);

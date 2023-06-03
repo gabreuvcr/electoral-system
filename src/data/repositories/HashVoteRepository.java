@@ -1,12 +1,12 @@
-package repositories;
+package data.repositories;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import interfaces.IVoteRepository;
-import models.Candidate;
-import models.FederalDeputy;
-import models.Voter;
+import domain.Candidate;
+import domain.FederalDeputy;
+import domain.Voter;
+import domain.interfaces.IVoteRepository;
 
 public class HashVoteRepository implements IVoteRepository{
     private Map<Voter, Integer> votersPresident = new HashMap<Voter, Integer>();

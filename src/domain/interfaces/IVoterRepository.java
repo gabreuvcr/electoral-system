@@ -1,6 +1,6 @@
-package interfaces;
+package domain.interfaces;
 
-import models.Voter;
+import domain.Voter;
 
 public interface IVoterRepository {
     Voter getByElectoralCard(String electoralCard);

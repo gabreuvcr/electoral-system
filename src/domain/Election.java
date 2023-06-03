@@ -1,17 +1,12 @@
-package services;
+package domain;
 
+import domain.interfaces.IFederalDeputyRepository;
+import domain.interfaces.IPresidentRepository;
+import domain.interfaces.ITSEProfessionalRepository;
+import domain.interfaces.IVoteRepository;
+import domain.interfaces.IVoterRepository;
 import errors.StopTrap;
 import errors.Warning;
-import interfaces.IFederalDeputyRepository;
-import interfaces.IPresidentRepository;
-import interfaces.ITSEProfessionalRepository;
-import interfaces.IVoteRepository;
-import interfaces.IVoterRepository;
-import models.Candidate;
-import models.FederalDeputy;
-import models.President;
-import models.TSEProfessional;
-import models.Voter;
 
 public class Election {
     private final String password;

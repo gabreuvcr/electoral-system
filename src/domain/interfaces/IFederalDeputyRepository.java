@@ -1,8 +1,8 @@
-package interfaces;
+package domain.interfaces;
 
 import java.util.Map;
 
-import models.FederalDeputy;
+import domain.FederalDeputy;
 
 public interface IFederalDeputyRepository {
     void addCandidate(FederalDeputy candidate);

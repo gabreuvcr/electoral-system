@@ -1,12 +1,9 @@
-package services;
+package domain;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import models.FederalDeputy;
-import models.President;
 
 public class ElectionResult {
     public static String produceResult(

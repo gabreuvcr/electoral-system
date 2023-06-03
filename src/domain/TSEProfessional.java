@@ -1,4 +1,4 @@
-package models;
+package domain;
 
 public class TSEProfessional {
     public final String user;

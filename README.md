@@ -7,7 +7,7 @@
 - Adição de chaves " { } " em estruturas condicionais
 - Simplificação de verificações para redução de estruturas condicionais
 - Adicionado Singleton
-- Separação dos arquivos em pastas
+- Separação dos arquivos em pastas no padrão 3 camadas.
 - Início do sistema pela classe Application, que possui apenas o método main e instancia as classes concretas e injeta as dependências
 - Corrigido bug onde votos brancos para Deputados Federais estavam contando como nulo.
 - Todas pré-carregamentos (Presidentes, Deputados, Eleitores) agora são realizados nos seus respectivos repositorios

@@ -1,11 +1,11 @@
-package repositories;
+package data.repositories;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import domain.President;
+import domain.interfaces.IPresidentRepository;
 import errors.Warning;
-import interfaces.IPresidentRepository;
-import models.President;
 
 public class HashPresidentRepository implements IPresidentRepository {
     private Map<Integer, President> presidentCandidates = new HashMap<Integer, President>();

@@ -1,10 +1,10 @@
-import repositories.HashFederalDeputyRepository;
-import repositories.HashPresidentRepository;
-import repositories.HashTSEProfessionalRepository;
-import repositories.HashVoterRepository;
-import repositories.HashVoteRepository;
-import services.Election;
-import services.Urna;
+import data.repositories.HashFederalDeputyRepository;
+import data.repositories.HashPresidentRepository;
+import data.repositories.HashTSEProfessionalRepository;
+import data.repositories.HashVoteRepository;
+import data.repositories.HashVoterRepository;
+import domain.Election;
+import view.Urna;
 
 public class Application {
     public static void main(String[] args) {

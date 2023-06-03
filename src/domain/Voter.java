@@ -1,7 +1,6 @@
-package models;
+package domain;
 
 import errors.Warning;
-import services.Election;
 
 public class Voter {
     public final String electoralCard;

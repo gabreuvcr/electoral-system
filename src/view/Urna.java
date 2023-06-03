@@ -1,17 +1,19 @@
-package services;
+package view;
 
 import errors.StopTrap;
 import errors.Warning;
-import models.Candidate;
-import models.CertifiedProfessional;
-import models.FederalDeputy;
-import models.President;
-import models.TSEEmployee;
-import models.TSEProfessional;
-import models.Voter;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+
+import domain.Candidate;
+import domain.CertifiedProfessional;
+import domain.Election;
+import domain.FederalDeputy;
+import domain.President;
+import domain.TSEEmployee;
+import domain.TSEProfessional;
+import domain.Voter;
 
 public class Urna {
     private final BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));

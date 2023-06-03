@@ -1,15 +1,14 @@
-package repositories;
+package data.repositories;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import interfaces.IVoterRepository;
+import domain.Voter;
+import domain.interfaces.IVoterRepository;
 
 import static java.lang.System.exit;
-
-import models.Voter;
 
 public class HashVoterRepository implements IVoterRepository{
     private final Map<String, Voter> voters = new HashMap<>();
@@ -31,7 +30,7 @@ public class HashVoterRepository implements IVoterRepository{
     @Override
     public void preLoad() {
         try {
-            File myObj = new File("voterLoad.txt");
+            File myObj = new File("data/voterLoad.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();

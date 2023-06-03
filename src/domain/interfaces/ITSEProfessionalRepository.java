@@ -1,6 +1,6 @@
-package interfaces;
+package domain.interfaces;
 
-import models.TSEProfessional;
+import domain.TSEProfessional;
 
 public interface ITSEProfessionalRepository {
     TSEProfessional getByUser(String user);
