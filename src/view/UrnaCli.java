@@ -314,7 +314,7 @@ public class UrnaCli {
                     + ")?");
             candidate = new FederalDeputy.Builder()
                     .name(name)
-                    .number(123)
+                    .number(number)
                     .party(party)
                     .state(state)
                     .build();
@@ -322,7 +322,7 @@ public class UrnaCli {
             print("\nCadastrar o candidato a presidente " + name + " Nº " + number + " do " + party + "?");
             candidate = new President.Builder()
                     .name(name)
-                    .number(123)
+                    .number(number)
                     .party(party)
                     .build();
         }
@@ -332,7 +332,7 @@ public class UrnaCli {
         if (save == 1 && candidate != null) {
             print("Insira a senha da urna");
             String pwd = readString();
-            tseProfessional.addCandidate(candidate, currElection, pwd);
+            currElection.addCandidate(candidate, pwd);
             print("Candidato cadastrado com sucesso");
         }
     }
@@ -380,7 +380,7 @@ public class UrnaCli {
         if (remove == 1) {
             print("Insira a senha da urna:");
             String pwd = readString();
-            tseProfessional.removeCandidate(candidate, currElection, pwd);
+            currElection.removeCandidate(candidate, pwd);
             print("Candidato removido com sucesso");
         }
     }

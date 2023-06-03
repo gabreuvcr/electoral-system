@@ -6,23 +6,6 @@ public class TSEEmployee extends TSEProfessional {
         super(user, password);
     }
 
-    public void addCandidate(Candidate candidate, Election election, String password) {
-        if (candidate instanceof President) {
-            election.addPresidentCandidate((President) candidate, password);
-        } else if (candidate instanceof FederalDeputy) {
-            election.addFederalDeputyCandidate((FederalDeputy) candidate, password);
-        }
-    }
-
-    public void removeCandidate(Candidate candidate, Election election, String password) {
-        if (candidate instanceof President) {
-            election.removePresidentCandidate((President) candidate, password);
-        }
-        else if (candidate instanceof FederalDeputy) {
-            election.removeFederalDeputyCandidate((FederalDeputy) candidate, password);
-        }
-    }
-
     public static class Builder {
         protected String user;
         protected String password;

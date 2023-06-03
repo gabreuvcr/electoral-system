@@ -136,40 +136,32 @@ public class Election {
         return this.presidentRepository.getByNumber(number);
     }
 
-    public void addPresidentCandidate(President candidate, String password) {
+    public void addCandidate(Candidate candidate, String password) {
         if (!isValid(password)) {
             throw new Warning("Senha inválida");
         }
 
-        this.presidentRepository.addCandidate(candidate);
+        if (candidate instanceof President) {
+            this.presidentRepository.addCandidate((President) candidate);
+        } else if (candidate instanceof FederalDeputy) {
+            this.federalDeputyRepository.addCandidate((FederalDeputy) candidate);
+        }
     }
 
-    public void removePresidentCandidate(President candidate, String password) {
+    public void removeCandidate(Candidate candidate, String password) {
         if (!isValid(password)) {
             throw new Warning("Senha inválida");
         }
 
-        this.presidentRepository.removeCandidate(candidate);
+        if (candidate instanceof President) {
+            this.presidentRepository.removeCandidate((President) candidate);
+        } else if (candidate instanceof FederalDeputy) {
+            this.federalDeputyRepository.removeCandidate((FederalDeputy) candidate);
+        }
     }
 
     public FederalDeputy getFederalDeputyByNumber(String state, int number) {
         return this.federalDeputyRepository.getByNumber(state + number);
-    }
-
-    public void addFederalDeputyCandidate(FederalDeputy candidate, String password) {
-        if (!isValid(password)) {
-            throw new Warning("Senha inválida");
-        }
-
-        this.federalDeputyRepository.addCandidate(candidate);
-    }
-
-    public void removeFederalDeputyCandidate(FederalDeputy candidate, String password) {
-        if (!isValid(password)) {
-            throw new Warning("Senha inválida");
-        }
-
-        this.federalDeputyRepository.removeCandidate(candidate);
     }
 
     public Voter getVoterByElectorCard(String electoralCard) {
