@@ -4,7 +4,7 @@ import data.repositories.HashTSEProfessionalRepository;
 import data.repositories.HashVoteRepository;
 import data.repositories.HashVoterRepository;
 import domain.Election;
-import view.Urna;
+import view.UrnaCli;
 
 public class Application {
     public static void main(String[] args) {
@@ -18,7 +18,7 @@ public class Application {
             new HashVoterRepository()
         );
 
-        Urna urna = new Urna(currElection);
-        urna.init();
+        UrnaCli urnaCli = new UrnaCli(currElection);
+        urnaCli.init();
     }
 }

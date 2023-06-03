@@ -15,12 +15,12 @@ import domain.TSEEmployee;
 import domain.TSEProfessional;
 import domain.Voter;
 
-public class Urna {
+public class UrnaCli {
     private final BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
     private boolean exit = false;
     private Election currElection;
 
-    public Urna(Election election) {
+    public UrnaCli(Election election) {
         this.currElection = election;
     }
 
