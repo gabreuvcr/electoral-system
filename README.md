@@ -14,6 +14,8 @@
 - Removido padrão Builder pré-existente da classe Election (não fazia muito sentido)
 - Todos repositorios estão na classe Election. Agora a Urna (que precisa ser o "frontend") apenas utiliza os serviços fornecidos por Election e pelos modelos.
 - Resultado da eleição agora é gerado por uma classe específica nomeada ElectionResult invocada por Election.
+- Removido da classe Voter a responsabilidade de votar chamando a propria eleição (?). Agora TODOS os votos sao armazenados pela classe IVoteRepository e orquestrados por Election.
+- Election possui um metodo para cada tipo de voto, que sao utilizados pela UrnaCli.
 
 ## Execução de produtos da LPS 
 - TODO

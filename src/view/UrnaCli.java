@@ -106,10 +106,10 @@ public class UrnaCli {
             print("(1) Confirmar\n(2) Mudar voto");
             int confirm = readInt();
             if (confirm == 1) {
-                voter.vote(0, currElection, "President", true);
+                currElection.voteProtestForPresident(voter);
                 return true;
             } else {
-                votePresident(voter);
+                return votePresident(voter);
             }
         } else {
             try {
@@ -120,7 +120,7 @@ public class UrnaCli {
                     print("(1) Confirmar\n(2) Mudar voto");
                     int confirm = readInt();
                     if (confirm == 1) {
-                        voter.vote(0, currElection, "President", false);
+                        currElection.voteNullForPresident(voter);
                         return true;
                     } else {
                         votePresident(voter);
@@ -138,7 +138,7 @@ public class UrnaCli {
                 print("(1) Confirmar\n(2) Mudar voto");
                 int confirm = readInt();
                 if (confirm == 1) {
-                    voter.vote(voteNumber, currElection, "President", false);
+                    currElection.voteForPresident(voter, candidate);
                     return true;
                 } else if (confirm == 2) {
                     return votePresident(voter);
@@ -170,7 +170,7 @@ public class UrnaCli {
             print("(1) Confirmar\n(2) Mudar voto");
             int confirm = readInt();
             if (confirm == 1) {
-                voter.vote(0, currElection, "FederalDeputy", true);
+                currElection.voteProtestForFederalDeputy(voter);
                 return true;
             } else {
                 return voteFederalDeputy(voter, counter);
@@ -184,7 +184,7 @@ public class UrnaCli {
                     print("(1) Confirmar\n(2) Mudar voto\n");
                     int confirm = readInt();
                     if (confirm == 1) {
-                        voter.vote(0, currElection, "FederalDeputy", false);
+                        currElection.voteNullForFederalDeputy(voter);
                         return true;
                     } else {
                         return voteFederalDeputy(voter, counter);
@@ -202,7 +202,7 @@ public class UrnaCli {
                 print("(1) Confirmar\n(2) Mudar voto");
                 int confirm = readInt();
                 if (confirm == 1) {
-                    voter.vote(voteNumber, currElection, "FederalDeputy", false);
+                    currElection.voteForFederalDeputy(voter, candidate);
                     return true;
                 } else if (confirm == 2) {
                     return voteFederalDeputy(voter, counter);

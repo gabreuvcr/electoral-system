@@ -1,7 +1,5 @@
 package domain;
 
-import errors.Warning;
-
 public class Voter {
     public final String electoralCard;
     public final String name;
@@ -47,34 +45,6 @@ public class Voter {
             }
 
             return new Voter(electoralCard, name, state);
-        }
-    }
-
-    public void vote(int number, Election election, String type, Boolean isProtestVote) {
-        if (type.equals("President")) {
-            if (isProtestVote) {
-                election.computeProtestVote("President", this);
-            } else if (number == 0) {
-                election.computeNullVote("President", this);
-            } else {
-                President candidate = election.getPresidentByNumber(number);
-                if (candidate == null) {
-                    throw new Warning("Número de candidato inválido");
-                }
-                election.computeVote(candidate, this);
-            }
-        } else if (type.equals("FederalDeputy")) {
-            if (isProtestVote) {
-                election.computeProtestVote("FederalDeputy", this);
-            } else if (number == 0) {
-                election.computeNullVote("FederalDeputy", this);
-            } else {
-                FederalDeputy candidate = election.getFederalDeputyByNumber(this.state, number);
-                if (candidate == null) {
-                    throw new Warning("Número de candidato inválido");
-                }
-                election.computeVote(candidate, this);
-            }
         }
     }
 }

@@ -5,38 +5,60 @@ import java.util.Map;
 
 import domain.Candidate;
 import domain.FederalDeputy;
+import domain.President;
 import domain.Voter;
 import domain.interfaces.IVoteRepository;
 
 public class HashVoteRepository implements IVoteRepository{
+    private int nullVotesPresident;
+    private int nullVotesFederalDeputy;
+    private int protestVotesPresident;
+    private int protestVotesFederalDeputy;
     private Map<Voter, Integer> votersPresident = new HashMap<Voter, Integer>();
     private Map<Voter, Integer> votersFederalDeputy = new HashMap<Voter, Integer>();
     private Map<Voter, FederalDeputy> tempFDVote = new HashMap<Voter, FederalDeputy>();
     
     @Override
-    public void addVoteForPresident(Voter voter) {
+    public void addVoteForPresident(Voter voter, President president) {
         votersPresident.put(voter, 1);
+        president.numVotes++;
+    }
+
+    @Override 
+    public void addProtestVoteForPresident(Voter voter) {
+        votersPresident.put(voter, 1);
+        protestVotesPresident++;
     }
 
     @Override
-    public void addVoteForFederalDeputy(Voter voter) {
-        if (votersFederalDeputy.get(voter) == null) {
-            votersFederalDeputy.put(voter, 1);
-        } else {
-            votersFederalDeputy.put(voter, votersFederalDeputy.get(voter) + 1);
-        }
+    public void addNullVoteForPresident(Voter voter) {
+        votersPresident.put(voter, 1);
+        nullVotesPresident++;
     }
 
     @Override
-    public void addVoteForFederalDeputy(Voter voter, Candidate candidate) {
-        if (votersFederalDeputy.get(voter) == null) {
-            votersFederalDeputy.put(voter, 1);
-            tempFDVote.put(voter, (FederalDeputy)candidate);
-        } else {
-            votersFederalDeputy.put(voter, votersFederalDeputy.get(voter) + 1);
+    public void addVoteForFederalDeputy(Voter voter, FederalDeputy federalDeputy) {
+        if (tempFDVote.get(voter) != null) {
             tempFDVote.remove(voter);
+        } else {
+            tempFDVote.put(voter, federalDeputy);
         }
+        votersFederalDeputy.put(voter, votersFederalDeputy.getOrDefault(voter, 0) + 1);
+        federalDeputy.numVotes++;
     }
+
+    @Override
+    public void addProtestVoteForFederalDeputy(Voter voter) {
+        votersFederalDeputy.put(voter, votersFederalDeputy.getOrDefault(voter, 0) + 1);
+        protestVotesFederalDeputy++;
+    }
+
+    @Override
+    public void addNullVoteForFederalDeputy(Voter voter) {
+        votersFederalDeputy.put(voter, votersFederalDeputy.getOrDefault(voter, 0) + 1);
+        nullVotesFederalDeputy++;
+    }
+
 
     @Override
     public boolean alreadyVotedForPresident(Voter voter) {
@@ -60,5 +82,21 @@ public class HashVoteRepository implements IVoteRepository{
             return true;
         }
         return false;
+    }
+
+    public int getNullVotesPresident() {
+        return nullVotesPresident;
+    }
+
+    public int getNullVotesFederalDeputy() {
+        return nullVotesFederalDeputy;
+    }
+
+    public int getProtestVotesPresident() {
+        return protestVotesPresident;
+    }
+
+    public int getProtestVotesFederalDeputy() {
+        return protestVotesFederalDeputy;
     }
 }

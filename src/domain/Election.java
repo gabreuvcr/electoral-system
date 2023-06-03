@@ -11,10 +11,6 @@ import errors.Warning;
 public class Election {
     private final String password;
     private boolean status;
-    private int nullPresidentVotes;
-    private int nullFederalDeputyVotes;
-    private int presidentProtestVotes;
-    private int federalDeputyProtestVotes;
     private final IVoteRepository voteRepository;
     private final IPresidentRepository presidentRepository;
     private final IFederalDeputyRepository federalDeputyRepository;
@@ -37,10 +33,10 @@ public class Election {
         this.tseProfessionalRepository = tseProfessionalRepository;
         this.voterRepository = voterRepository;
         this.status = false;
-        this.nullFederalDeputyVotes = 0;
-        this.nullPresidentVotes = 0;
-        this.presidentProtestVotes = 0;
-        this.federalDeputyProtestVotes = 0;
+        // this.nullFederalDeputyVotes = 0;
+        // this.nullPresidentVotes = 0;
+        // this.presidentProtestVotes = 0;
+        // this.federalDeputyProtestVotes = 0;
     }
 
     public static Election getInstance(
@@ -68,62 +64,56 @@ public class Election {
         return this.password.equals(password);
     }
 
-    public void computeVote(Candidate candidate, Voter voter) {
-        if (candidate instanceof President) {
-            if (this.voteRepository.alreadyVotedForPresident(voter)) {
-                throw new StopTrap("Você não pode votar mais de uma vez para presidente");
-            }
-
-            candidate.numVotes++;
-            this.voteRepository.addVoteForPresident(voter);
-        } else if (candidate instanceof FederalDeputy) {
-            if (this.voteRepository.alreadyVotedForFederalDeputy(voter)) {
-                throw new StopTrap("Você não pode votar mais de uma vez para deputado federal");
-            }
-
-            if (this.voteRepository.isRepeatFederalDeputy(voter, candidate)) {
-                throw new Warning("Você não pode votar mais de uma vez em um mesmo candidato");
-            }
-
-            candidate.numVotes++;
-            this.voteRepository.addVoteForFederalDeputy(voter, candidate);
+    public void voteProtestForPresident(Voter voter) {
+        if (this.voteRepository.alreadyVotedForPresident(voter)) {
+            throw new StopTrap("Você não pode votar mais de uma vez para presidente");
         }
-    };
 
-    public void computeNullVote(String type, Voter voter) {
-        if (type.equals("President")) {
-            if (this.voteRepository.alreadyVotedForPresident(voter)) {
-                throw new StopTrap("Você não pode votar mais de uma vez para presidente");
-            }
-
-            this.nullPresidentVotes++;
-            this.voteRepository.addVoteForPresident(voter);
-        } else if (type.equals("FederalDeputy")) {
-            if (this.voteRepository.alreadyVotedForFederalDeputy(voter)) {
-                throw new StopTrap("Você não pode votar mais de uma vez para deputado federal");
-            }
-
-            this.nullFederalDeputyVotes++;
-            this.voteRepository.addVoteForFederalDeputy(voter);
-        }
+        this.voteRepository.addProtestVoteForPresident(voter);
     }
 
-    public void computeProtestVote(String type, Voter voter) {
-        if (type.equals("President")) {
-            if (this.voteRepository.alreadyVotedForPresident(voter)) {
-                throw new StopTrap("Você não pode votar mais de uma vez para presidente");
-            }
-
-            this.presidentProtestVotes++;
-            this.voteRepository.addVoteForPresident(voter);
-        } else if (type.equals("FederalDeputy")) {
-            if (this.voteRepository.alreadyVotedForFederalDeputy(voter)) {
-                throw new StopTrap("Você não pode votar mais de uma vez para deputado federal");
-            }
-
-            this.federalDeputyProtestVotes++;
-            this.voteRepository.addVoteForFederalDeputy(voter);
+    public void voteNullForPresident(Voter voter) {
+        if (this.voteRepository.alreadyVotedForPresident(voter)) {
+            throw new StopTrap("Você não pode votar mais de uma vez para presidente");
         }
+
+        this.voteRepository.addNullVoteForPresident(voter);
+    }
+
+    public void voteForPresident(Voter voter, President president) {
+        if (this.voteRepository.alreadyVotedForPresident(voter)) {
+            throw new StopTrap("Você não pode votar mais de uma vez para presidente");
+        }
+
+        this.voteRepository.addVoteForPresident(voter, president);
+    }
+
+    public void voteProtestForFederalDeputy(Voter voter) {
+        if (this.voteRepository.alreadyVotedForFederalDeputy(voter)) {
+            throw new StopTrap("Você não pode votar mais de uma vez para deputado federal");
+        }
+
+        this.voteRepository.addProtestVoteForFederalDeputy(voter);
+    }
+
+    public void voteNullForFederalDeputy(Voter voter) {
+        if (this.voteRepository.alreadyVotedForFederalDeputy(voter)) {
+            throw new StopTrap("Você não pode votar mais de uma vez para deputado federal");
+        }
+
+        this.voteRepository.addNullVoteForFederalDeputy(voter);
+    }
+
+    public void voteForFederalDeputy(Voter voter, FederalDeputy federalDeputy) {
+        if (this.voteRepository.alreadyVotedForFederalDeputy(voter)) {
+            throw new StopTrap("Você não pode votar mais de uma vez para deputado federal");
+        }
+
+        if (this.voteRepository.isRepeatFederalDeputy(voter, federalDeputy)) {
+            throw new Warning("Você não pode votar mais de uma vez em um mesmo candidato");
+        }
+
+        this.voteRepository.addVoteForFederalDeputy(voter, federalDeputy);
     }
 
     public boolean getStatus() {
@@ -206,10 +196,10 @@ public class Election {
         return ElectionResult.produceResult(
             this.presidentRepository.getCandidates(), 
             this.federalDeputyRepository.getCandidates(), 
-            presidentProtestVotes, 
-            nullPresidentVotes, 
-            federalDeputyProtestVotes,
-            nullFederalDeputyVotes
+            this.voteRepository.getProtestVotesPresident(), 
+            this.voteRepository.getNullVotesPresident(), 
+            this.voteRepository.getProtestVotesFederalDeputy(),
+            this.voteRepository.getNullVotesFederalDeputy()
         );
     }
 }

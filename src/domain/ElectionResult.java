@@ -9,10 +9,10 @@ public class ElectionResult {
     public static String produceResult(
         Map<Integer, President> presidentCandidates,
         Map<String, FederalDeputy> federalDeputyCandidates,
-        int presidentProtestVotes,
-        int nullPresidentVotes,
-        int federalDeputyProtestVotes,
-        int nullFederalDeputyVotes
+        int protestVotesPresident,
+        int nullVotesPresident,
+        int protestVotesFederalDeputy,
+        int nullVotesFederalDeputy
     ) {
         var decimalFormater = new DecimalFormat("0.00");
         var presidentRank = new ArrayList<President>();
@@ -22,7 +22,7 @@ public class ElectionResult {
 
         builder.append("Resultado da eleicao:\n");
 
-        int totalVotesP = presidentProtestVotes + nullPresidentVotes;
+        int totalVotesP = protestVotesPresident + nullVotesPresident;
         for (Map.Entry<Integer, President> candidateEntry 
                 : presidentCandidates.entrySet()) {
             President candidate = candidateEntry.getValue();
@@ -30,7 +30,7 @@ public class ElectionResult {
             presidentRank.add(candidate);
         }
 
-        int totalVotesFD = federalDeputyProtestVotes + nullFederalDeputyVotes;
+        int totalVotesFD = protestVotesFederalDeputy + nullVotesFederalDeputy;
         for (Map.Entry<String, FederalDeputy> candidateEntry 
                 : federalDeputyCandidates.entrySet()) {
             FederalDeputy candidate = candidateEntry.getValue();
@@ -48,10 +48,10 @@ public class ElectionResult {
 
         builder.append("  Votos presidente:\n");
         builder.append("  Total: " + totalVotesP + "\n");
-        builder.append("  Votos nulos: " + nullPresidentVotes + " ("
-                + decimalFormater.format((double) nullPresidentVotes / (double) totalVotesFD * 100) + "%)\n");
-        builder.append("  Votos brancos: " + presidentProtestVotes + " ("
-                + decimalFormater.format((double) presidentProtestVotes / (double) totalVotesFD * 100) + "%)\n");
+        builder.append("  Votos nulos: " + nullVotesPresident + " ("
+                + decimalFormater.format((double) nullVotesPresident / (double) totalVotesFD * 100) + "%)\n");
+        builder.append("  Votos brancos: " + protestVotesPresident + " ("
+                + decimalFormater.format((double) protestVotesPresident / (double) totalVotesFD * 100) + "%)\n");
         builder.append("\tNumero - Partido - Nome  - Votos  - % dos votos totais\n");
         for (President candidate : sortedPresidentRank) {
             builder.append("\t" + candidate.number + " - " + candidate.party + " - " + candidate.name + " - "
@@ -68,10 +68,10 @@ public class ElectionResult {
         builder.append("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
 
         builder.append("\n\n  Votos deputado federal:\n");
-        builder.append("  Votos nulos: " + nullFederalDeputyVotes + " ("
-                + decimalFormater.format((double) nullFederalDeputyVotes / (double) totalVotesFD * 100) + "%)\n");
-        builder.append("  Votos brancos: " + federalDeputyProtestVotes + " ("
-                + decimalFormater.format((double) federalDeputyProtestVotes / (double) totalVotesFD * 100) + "%)\n");
+        builder.append("  Votos nulos: " + nullVotesFederalDeputy + " ("
+                + decimalFormater.format((double) nullVotesFederalDeputy / (double) totalVotesFD * 100) + "%)\n");
+        builder.append("  Votos brancos: " + protestVotesFederalDeputy + " ("
+                + decimalFormater.format((double) protestVotesFederalDeputy / (double) totalVotesFD * 100) + "%)\n");
         builder.append("  Total: " + totalVotesFD + "\n");
         builder.append("\tNumero - Partido - Nome - Estado - Votos - % dos votos totais\n");
         for (FederalDeputy candidate : sortedFederalDeputyRank) {
