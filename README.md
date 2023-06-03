@@ -11,14 +11,16 @@
 - Início do sistema pela classe Application, que possui apenas o método main e instancia as classes concretas e injeta as dependências
 - Corrigido bug onde votos brancos para Deputados Federais estavam contando como nulo.
 - Todas pré-carregamentos (Presidentes, Deputados, Eleitores) agora são realizados nos seus respectivos repositorios
-- Removido padrão Builder pré-existente da classe Election (não fazia muito sentido)
-- Todos repositorios estão na classe Election. Agora a Urna (que precisa ser o "frontend") apenas utiliza os serviços fornecidos por Election e pelos modelos.
-- Resultado da eleição agora é gerado por uma classe específica nomeada ElectionResult invocada por Election.
-- Removido da classe Voter a responsabilidade de votar chamando a propria eleição (?). Agora TODOS os votos sao armazenados pela classe IVoteRepository e orquestrados por Election.
-- Removido da classe TSEEmployee a responsabilidade de adicionar/remover candidatos chamando a propria eleição (?). Agora a adição e remoção é controlada por Election.
-- Removido da classe CertifiedProfessional a responsabilidade de iniciar/finalizar uma eleicoa chamando a propria eleição (?). Agora o inicio e fim é controlado por Election.
+- Removido padrão Builder pré-existente da classe ElectionController (não fazia muito sentido)
+- Todos repositorios estão na classe ElectionController. Agora a Urna (que precisa ser o "frontend") apenas utiliza os serviços fornecidos por ElectionController e pelos modelos.
+- Resultado da eleição agora é gerado por uma classe específica nomeada ElectionResult invocada por ElectionController.
+- Removido da classe Voter a responsabilidade de votar chamando a propria eleição (?). Agora TODOS os votos sao armazenados pela classe IVoteRepository e orquestrados por ElectionController.
+- Removido da classe TSEEmployee a responsabilidade de adicionar/remover candidatos chamando a propria eleição (?). Agora a adição e remoção é controlada por ElectionController.
+- Removido da classe CertifiedProfessional a responsabilidade de iniciar/finalizar uma eleicoa chamando a propria eleição (?). Agora o inicio e fim é controlado por ElectionController.
 - Adicionado metodo login em TSEProfessional.
-- Election possui um metodo para cada tipo de voto, que sao utilizados pela UrnaCli.
+- ElectionController possui um metodo para cada tipo de voto, que sao utilizados pela UrnaCli.
+- Se para um cargo não houver votos válidos, nenhum candidato será eleito.
+- 
 
 ## Execução de produtos da LPS 
 - TODO

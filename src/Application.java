@@ -3,13 +3,13 @@ import data.repositories.HashPresidentRepository;
 import data.repositories.HashTSEProfessionalRepository;
 import data.repositories.HashVoteRepository;
 import data.repositories.HashVoterRepository;
-import domain.Election;
+import domain.ElectionController;
 import view.UrnaCli;
 
 public class Application {
     public static void main(String[] args) {
         
-        Election currElection = Election.getInstance(
+        ElectionController currElection = ElectionController.getInstance(
             "password",
             new HashPresidentRepository(),
             new HashFederalDeputyRepository(),

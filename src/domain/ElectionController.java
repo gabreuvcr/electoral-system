@@ -8,7 +8,7 @@ import domain.interfaces.IVoterRepository;
 import errors.StopTrap;
 import errors.Warning;
 
-public class Election {
+public class ElectionController {
     private final String password;
     private boolean status;
     private final IVoteRepository voteRepository;
@@ -16,9 +16,9 @@ public class Election {
     private final IFederalDeputyRepository federalDeputyRepository;
     private final ITSEProfessionalRepository tseProfessionalRepository;
     private final IVoterRepository voterRepository;
-    private static Election instance;
+    private static ElectionController instance;
 
-    private Election(
+    private ElectionController(
         String password, 
         IPresidentRepository presidentRepository,
         IFederalDeputyRepository federalDeputyRepository,
@@ -35,7 +35,7 @@ public class Election {
         this.status = false;
     }
 
-    public static Election getInstance(
+    public static ElectionController getInstance(
         String password, 
         IPresidentRepository presidentRepository,
         IFederalDeputyRepository federalDeputyRepository,
@@ -44,7 +44,7 @@ public class Election {
         IVoterRepository voterRepository
     ) {
         if (instance == null) {
-            instance = new Election(
+            instance = new ElectionController(
                 password, 
                 presidentRepository,
                 federalDeputyRepository,

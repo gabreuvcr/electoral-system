@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 
 import domain.Candidate;
 import domain.CertifiedProfessional;
-import domain.Election;
+import domain.ElectionController;
 import domain.FederalDeputy;
 import domain.President;
 import domain.TSEEmployee;
@@ -18,9 +18,9 @@ import domain.Voter;
 public class UrnaCli {
     private final BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
     private boolean exit = false;
-    private Election currElection;
+    private ElectionController currElection;
 
-    public UrnaCli(Election election) {
+    public UrnaCli(ElectionController election) {
         this.currElection = election;
     }
 
