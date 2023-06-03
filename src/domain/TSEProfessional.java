@@ -8,4 +8,8 @@ public class TSEProfessional {
         this.user = user;
         this.password = password;
     }
+
+    public boolean login(String password) {
+        return this.password.equals(password);
+    }
 }

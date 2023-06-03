@@ -16,6 +16,8 @@
 - Resultado da eleição agora é gerado por uma classe específica nomeada ElectionResult invocada por Election.
 - Removido da classe Voter a responsabilidade de votar chamando a propria eleição (?). Agora TODOS os votos sao armazenados pela classe IVoteRepository e orquestrados por Election.
 - Removido da classe TSEEmployee a responsabilidade de adicionar/remover candidatos chamando a propria eleição (?). Agora a adição e remoção é controlada por Election.
+- Removido da classe CertifiedProfessional a responsabilidade de iniciar/finalizar uma eleicoa chamando a propria eleição (?). Agora o inicio e fim é controlado por Election.
+- Adicionado metodo login em TSEProfessional.
 - Election possui um metodo para cada tipo de voto, que sao utilizados pela UrnaCli.
 
 ## Execução de produtos da LPS 

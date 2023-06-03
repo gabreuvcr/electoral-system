@@ -6,18 +6,6 @@ public class CertifiedProfessional extends TSEProfessional {
         super(user, password);
     }
 
-    public void startSession(Election election, String password) {
-        election.start(password);
-    }
-
-    public void endSession(Election election, String password) {
-        election.finish(password);
-    }
-
-    public String getFinalResult(Election election, String password) {
-        return election.getResults(password);
-    }
-
     public static class Builder {
         protected String user;
         protected String password;

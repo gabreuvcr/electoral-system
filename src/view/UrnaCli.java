@@ -276,7 +276,7 @@ public class UrnaCli {
             String password = readString();
 
             // Deveria ser um hash na pratica
-            if (tseProfessional.password.equals(password)) return tseProfessional;
+            if (tseProfessional.login(password)) return tseProfessional;
 
             print("Senha inválida, tente novamente");
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
@@ -389,7 +389,7 @@ public class UrnaCli {
         try {
             print("Insira a senha da urna");
             String pwd = readString();
-            tseProfessional.startSession(currElection, pwd);
+            currElection.start(pwd);
             print("Sessão inicializada");
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
         } catch (Warning e) {
@@ -401,7 +401,7 @@ public class UrnaCli {
         try {
             print("Insira a senha da urna:");
             String pwd = readString();
-            tseProfessional.endSession(currElection, pwd);
+            currElection.finish(pwd);
             print("Sessão finalizada com sucesso");
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
         } catch (Warning e) {
@@ -413,7 +413,7 @@ public class UrnaCli {
         try {
             print("Insira a senha da urna");
             String pwd = readString();
-            print(tseProfessional.getFinalResult(currElection, pwd));
+            print(currElection.getResults(pwd));
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
         } catch (Warning e) {
             print(e.getMessage());
