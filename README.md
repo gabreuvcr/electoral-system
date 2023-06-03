@@ -1,6 +1,7 @@
 ##  Decisões de projeto 
-- Adicionado padrão Singleton na classe Election por existir apenas uma eleição por execução
+- Adicionado padrão Singleton na classe `ElectionController` por existir apenas uma eleição por execução
 - Adicionado padrão Repository. Agora as classes apenas possuem um contrato via interface das funções disponíveis, fazendo com que as implementações de persistência de dados sejam facilmente alteradas
+- Adicionado arquitetura em 3 camadas: Há a classe `UrnaCli` que atua como a nossa View. A lógica está toda na pasta `src/domain`, sendo a classe `ElectionControler` a principal responsável. A persistência de dados está na pasta `src/data` e possui várias classes seguindo o padrão Repository.
   
 ## Adições na implementação do sistema existente
 - Correção de indentações para 4 espaços
@@ -20,7 +21,6 @@
 - Adicionado metodo login em TSEProfessional.
 - ElectionController possui um metodo para cada tipo de voto, que sao utilizados pela UrnaCli.
 - Se para um cargo não houver votos válidos, nenhum candidato será eleito.
-- 
 
 ## Execução de produtos da LPS 
 - TODO
