@@ -33,10 +33,6 @@ public class Election {
         this.tseProfessionalRepository = tseProfessionalRepository;
         this.voterRepository = voterRepository;
         this.status = false;
-        // this.nullFederalDeputyVotes = 0;
-        // this.nullPresidentVotes = 0;
-        // this.presidentProtestVotes = 0;
-        // this.federalDeputyProtestVotes = 0;
     }
 
     public static Election getInstance(
