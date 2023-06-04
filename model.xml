@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<featureModel>
+	<properties>
+		<graphics key="autolayoutconstraints" value="true"/>
+		<graphics key="legendposition" value="66,33"/>
+		<graphics key="legendautolayout" value="false"/>
+		<graphics key="showconstraints" value="true"/>
+		<graphics key="showshortnames" value="false"/>
+		<graphics key="layout" value="horizontal"/>
+		<graphics key="showcollapsedconstraints" value="true"/>
+		<graphics key="legendhidden" value="false"/>
+		<graphics key="layoutalgorithm" value="0"/>
+	</properties>
+	<struct>
+		<and abstract="true" mandatory="true" name="Eleição">
+			<graphics key="position" value="505,40"/>
+			<graphics key="collapsed" value="false"/>
+			<and mandatory="true" name="Eleitor">
+				<graphics key="position" value="366,109"/>
+				<feature mandatory="true" name="TituloEleitor">
+					<graphics key="position" value="376,173"/>
+					<graphics key="collapsed" value="false"/>
+				</feature>
+				<and name="Email">
+					<graphics key="position" value="183,170"/>
+					<graphics key="collapsed" value="false"/>
+					<feature mandatory="true" name="EnvioConfirmacaoEmail">
+						<graphics key="position" value="123,208"/>
+					</feature>
+				</and>
+				<feature mandatory="true" name="ConfirmacaoDados">
+					<graphics key="position" value="246,173"/>
+				</feature>
+				<and abstract="true" mandatory="true" name="TipoVoto">
+					<graphics key="position" value="487,202"/>
+					<graphics key="collapsed" value="false"/>
+					<feature mandatory="true" name="Branco">
+						<graphics key="position" value="508,238"/>
+					</feature>
+					<feature mandatory="true" name="Valido">
+						<graphics key="position" value="459,237"/>
+					</feature>
+					<feature mandatory="true" name="Nulo">
+						<graphics key="position" value="562,237"/>
+					</feature>
+				</and>
+			</and>
+			<and mandatory="true" name="FuncionarioTSE">
+				<graphics key="position" value="522,97"/>
+				<feature mandatory="true" name="IniciaSenha">
+					<graphics key="position" value="473,144"/>
+				</feature>
+				<feature mandatory="true" name="FinalizaSenha">
+					<graphics key="position" value="570,144"/>
+				</feature>
+			</and>
+			<or abstract="true" mandatory="true" name="TipoEleicao">
+				<graphics key="position" value="694,129"/>
+				<feature name="PresidenteDeputadoFederal">
+					<graphics key="position" value="588,187"/>
+				</feature>
+				<feature name="GovernadorDeputadoEstadual">
+					<graphics key="position" value="752,187"/>
+				</feature>
+			</or>
+			<and abstract="true" mandatory="true" name="Resultados">
+				<graphics key="position" value="843,108"/>
+				<feature mandatory="true" name="Vencedores">
+					<graphics key="position" value="816,147"/>
+				</feature>
+				<feature mandatory="true" name="Estatistica">
+					<graphics key="position" value="895,147"/>
+				</feature>
+			</and>
+			<feature name="SegundoTurno">
+				<graphics key="position" value="239,110"/>
+			</feature>
+			<feature name="ExibicaoCandidatos">
+				<graphics key="position" value="971,110"/>
+			</feature>
+		</and>
+	</struct>
+</featureModel>

@@ -5,6 +5,7 @@ bin/
 
 # Log file
 *.log
+products/
 
 # BlueJ files
 *.ctxt
