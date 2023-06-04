@@ -5,6 +5,7 @@ import java.util.List;
 
 import domain.interfaces.IFederalDeputyRepository;
 import domain.interfaces.IPresidentRepository;
+import domain.interfaces.IGovernorRepository;
 import domain.interfaces.ITSEProfessionalRepository;
 import domain.interfaces.IVoteRepository;
 import domain.interfaces.IVoterRepository;
@@ -17,6 +18,7 @@ public class ElectionController {
     private final IVoteRepository voteRepository;
     private final IPresidentRepository presidentRepository;
     private final IFederalDeputyRepository federalDeputyRepository;
+    private final IGovernorRepository governorRepository;
     private final ITSEProfessionalRepository tseProfessionalRepository;
     private final IVoterRepository voterRepository;
     private static ElectionController instance;
@@ -24,6 +26,7 @@ public class ElectionController {
     private ElectionController(
         String password, 
         IPresidentRepository presidentRepository,
+        IGovernorRepository governorRepository,
         IFederalDeputyRepository federalDeputyRepository,
         IVoteRepository voteRepository,
         ITSEProfessionalRepository tseProfessionalRepository,
@@ -32,6 +35,7 @@ public class ElectionController {
         this.password = password;
         this.presidentRepository = presidentRepository;
         this.federalDeputyRepository = federalDeputyRepository;
+        this.governorRepository = governorRepository;
         this.voteRepository = voteRepository;
         this.tseProfessionalRepository = tseProfessionalRepository;
         this.voterRepository = voterRepository;
@@ -41,6 +45,7 @@ public class ElectionController {
     public static ElectionController getInstance(
         String password, 
         IPresidentRepository presidentRepository,
+        IGovernorRepository governorRepository,
         IFederalDeputyRepository federalDeputyRepository,
         IVoteRepository voteRepository,
         ITSEProfessionalRepository tseProfessionalRepository,
@@ -50,6 +55,7 @@ public class ElectionController {
             instance = new ElectionController(
                 password, 
                 presidentRepository,
+                governorRepository,
                 federalDeputyRepository,
                 voteRepository,
                 tseProfessionalRepository,
@@ -85,6 +91,31 @@ public class ElectionController {
         }
 
         this.voteRepository.addVoteForPresident(voter, president);
+    }
+
+    
+    public void voteProtestForGovernor(Voter voter) {
+        if (this.voteRepository.alreadyVotedForGovernor(voter)) {
+            throw new StopTrap("Você não pode votar mais de uma vez para Governore");
+        }
+
+        this.voteRepository.addProtestVoteForGovernor(voter);
+    }
+
+    public void voteNullForGovernor(Voter voter) {
+        if (this.voteRepository.alreadyVotedForGovernor(voter)) {
+            throw new StopTrap("Você não pode votar mais de uma vez para Governore");
+        }
+
+        this.voteRepository.addNullVoteForGovernor(voter);
+    }
+
+    public void voteForGovernor(Voter voter, Governor Governor) {
+        if (this.voteRepository.alreadyVotedForGovernor(voter)) {
+            throw new StopTrap("Você não pode votar mais de uma vez para Governore");
+        }
+
+        this.voteRepository.addVoteForGovernor(voter, Governor);
     }
 
     public void voteProtestForFederalDeputy(Voter voter) {
@@ -139,6 +170,10 @@ public class ElectionController {
         return this.presidentRepository.getByNumber(number);
     }
 
+    public Governor getGovernorByNumber(int number) {
+        return this.GovernorRepository.getByNumber(number);
+    }
+
     public void addCandidate(Candidate candidate, String password) {
         if (!isValid(password)) {
             throw new Warning("Senha inválida");
@@ -152,12 +187,15 @@ public class ElectionController {
     }
 
     public void removeCandidate(Candidate candidate, String password) {
-        if (!isValid(password)) {
+        if (!isValid(password)) ;.{
             throw new Warning("Senha inválida");
         }
 
         if (candidate instanceof President) {
             this.presidentRepository.removeCandidate((President) candidate);
+        } else if (candidate instanceof Governor) {
+            this.governorRepository.removeCandidate((Governor) candidate);
+        }
         } else if (candidate instanceof FederalDeputy) {
             this.federalDeputyRepository.removeCandidate((FederalDeputy) candidate);
         }
@@ -179,6 +217,10 @@ public class ElectionController {
         return new ArrayList<President>(this.presidentRepository.getCandidates().values());
     }
 
+    public List<Governor> getPresidents() {
+        return new ArrayList<President>(this.presidentRepository.getCandidates().values());
+    }
+
     public List<FederalDeputy> getFederalDeputies() {
         return new ArrayList<FederalDeputy>(this.federalDeputyRepository.getCandidates().values());
     }
@@ -193,7 +235,8 @@ public class ElectionController {
         }
 
         return ElectionResult.produce(
-            this.presidentRepository.getCandidates(), 
+            this.presidentRepository.getCandidates(),
+            this.governorRepository.getCandidates(),
             this.federalDeputyRepository.getCandidates(), 
             this.voteRepository.getProtestVotesPresident(), 
             this.voteRepository.getNullVotesPresident(), 
