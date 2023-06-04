@@ -30,7 +30,7 @@ public class HashVoterRepository implements IVoterRepository{
     @Override
     public void preLoad() {
         try {
-            File myObj = new File("data/voterLoad.txt");
+            File myObj = new File("src/data/voterLoad.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();

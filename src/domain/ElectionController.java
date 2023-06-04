@@ -1,5 +1,8 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import domain.interfaces.IFederalDeputyRepository;
 import domain.interfaces.IPresidentRepository;
 import domain.interfaces.ITSEProfessionalRepository;
@@ -170,6 +173,14 @@ public class ElectionController {
 
     public TSEProfessional getTSEProfessionalByUser(String user) {
         return this.tseProfessionalRepository.getByUser(user);
+    }
+    
+    public List<President> getPresidents() {
+        return new ArrayList<President>(this.presidentRepository.getCandidates().values());
+    }
+
+    public List<FederalDeputy> getFederalDeputies() {
+        return new ArrayList<FederalDeputy>(this.federalDeputyRepository.getCandidates().values());
     }
 
     public String getResults(String password) {
