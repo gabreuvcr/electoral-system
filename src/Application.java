@@ -2,6 +2,7 @@ import data.repositories.HashFederalDeputyRepository;
 import data.repositories.HashPresidentRepository;
 import data.repositories.HashTSEProfessionalRepository;
 import data.repositories.HashVoteRepository;
+import data.repositories.HashGovernorRepository;
 import data.repositories.HashVoterRepository;
 import domain.ElectionController;
 import view.UrnaCli;
@@ -12,6 +13,7 @@ public class Application {
         ElectionController currElection = ElectionController.getInstance(
             "password",
             new HashPresidentRepository(),
+            new HashGovernorRepository(),
             new HashFederalDeputyRepository(),
             new HashVoteRepository(),
             new HashTSEProfessionalRepository(),

@@ -8,9 +8,12 @@ import java.util.stream.Collectors;
 public class ElectionResult {
     public static String produce(
         Map<Integer, President> presidentCandidates,
+        Map<Integer, President> governorCandidates,
         Map<String, FederalDeputy> federalDeputyCandidates,
         int protestVotesPresident,
         int nullVotesPresident,
+        int protestVotesGovernor,
+        int nullVotesGovernor,
         int protestVotesFederalDeputy,
         int nullVotesFederalDeputy
     ) {

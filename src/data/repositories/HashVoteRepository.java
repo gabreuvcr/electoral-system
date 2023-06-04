@@ -8,13 +8,17 @@ import domain.FederalDeputy;
 import domain.President;
 import domain.Voter;
 import domain.interfaces.IVoteRepository;
+import domain.Governor;
 
 public class HashVoteRepository implements IVoteRepository{
     private int nullVotesPresident;
     private int nullVotesFederalDeputy;
+    private int nullVotesGovernor;
     private int protestVotesPresident;
+    private int protestVotesGovernor;
     private int protestVotesFederalDeputy;
     private Map<Voter, Integer> votersPresident = new HashMap<Voter, Integer>();
+    private Map<Voter, Integer> votersGovernor = new HashMap<Voter, Integer>();
     private Map<Voter, Integer> votersFederalDeputy = new HashMap<Voter, Integer>();
     private Map<Voter, FederalDeputy> tempFDVote = new HashMap<Voter, FederalDeputy>();
     
@@ -35,7 +39,41 @@ public class HashVoteRepository implements IVoteRepository{
         votersPresident.put(voter, 1);
         nullVotesPresident++;
     }
+    
+    @Override
+    public boolean alreadyVotedForPresident(Voter voter) {
+        if (votersPresident.get(voter) != null && votersPresident.get(voter) >= 1) {
+            return true;
+        }
+        return false;
+    }
 
+    @Override
+    public void addVoteForGovernor(Voter voter, Governor Governor) {
+        votersGovernor.put(voter, 1);
+        Governor.numVotes++;
+    }
+
+    @Override 
+    public void addProtestVoteForGovernor(Voter voter) {
+        votersGovernor.put(voter, 1);
+        protestVotesGovernor++;
+    }
+
+    @Override
+    public void addNullVoteForGovernor(Voter voter) {
+        votersGovernor.put(voter, 1);
+        nullVotesGovernor++;
+    }
+    
+    @Override
+    public boolean alreadyVotedForGovernor(Voter voter) {
+        if (votersGovernor.get(voter) != null && votersGovernor.get(voter) >= 1) {
+            return true;
+        }
+        return false;
+    }
+    
     @Override
     public void addVoteForFederalDeputy(Voter voter, FederalDeputy federalDeputy) {
         tempFDVote.put(voter, federalDeputy);
@@ -54,15 +92,7 @@ public class HashVoteRepository implements IVoteRepository{
         votersFederalDeputy.put(voter, votersFederalDeputy.getOrDefault(voter, 0) + 1);
         nullVotesFederalDeputy++;
     }
-
-
-    @Override
-    public boolean alreadyVotedForPresident(Voter voter) {
-        if (votersPresident.get(voter) != null && votersPresident.get(voter) >= 1) {
-            return true;
-        }
-        return false;
-    }
+    
 
     @Override
     public boolean alreadyVotedForFederalDeputy(Voter voter) {
@@ -83,6 +113,10 @@ public class HashVoteRepository implements IVoteRepository{
     public int getNullVotesPresident() {
         return nullVotesPresident;
     }
+    
+    public int getNullVotesGovernor() {
+        return nullVotesGovernor;
+    }
 
     public int getNullVotesFederalDeputy() {
         return nullVotesFederalDeputy;
@@ -90,6 +124,10 @@ public class HashVoteRepository implements IVoteRepository{
 
     public int getProtestVotesPresident() {
         return protestVotesPresident;
+    }
+    
+    public int getProtestVotesGovernor() {
+        return protestVotesGovernor;
     }
 
     public int getProtestVotesFederalDeputy() {
