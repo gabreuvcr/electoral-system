@@ -1,38 +1,31 @@
 import java.util.List;
 
-public aspect CandidateSelectionAspect {
-    pointcut chooseCandidatePresident(int candidateNumber) : execution(* votePresident(Voter)) && args(candidateNumber);
-    pointcut chooseCandidateFederalDeputy(int candidateId) : execution(* voteFederalDeputy(Voter, int)) && args(candidateId);
+import domain.Voter;
+import domain.President;
+import domain.FederalDeputy;
+import view.UrnaCli;
 
-    before(int candidateNumber) : chooseCandidatePresident(candidateNumber) {
-        showAvailableCandidates("president", candidateNumber);
-    }
-
-    before(int candidateId) : chooseCandidateFederalDeputy(candidateId) {
-        showAvailableCandidates("federalDeputy", candidateId);
-    }
-
-    private void showAvailableCandidates(String position, int candidateId) {
-        if (position.equals("president")) {
-            List<President> candidates = currElection.getPresidents();
-            System.out.println("Candidatos a presidente:\n");
-            for (President candidate : candidates) {
-                if (candidate.getNumber() == candidateId) {
-                    System.out.println("* " + candidate.getNumber() + " - " + candidate.getName() + " do " + candidate.getParty() + "\n");
-                } else {
-                    System.out.println(candidate.getNumber() + " - " + candidate.getName() + " do " + candidate.getParty() + "\n");
-                }
-            }
-        } else if (position.equals("federalDeputy")) {
-            List<FederalDeputy> candidates = currElection.getFederalDeputies();
-            System.out.println("Candidatos a deputado federal:\n");
-            for (FederalDeputy candidate : candidates) {
-                if (candidate.getId() == candidateId) {
-                    System.out.println("* " + candidate.getNumber() + " - " + candidate.getName() + " do " + candidate.getParty() + "\n");
-                } else {
-                    System.out.println(candidate.getNumber() + " - " + candidate.getName() + " do " + candidate.getParty() + "\n");
-                }
-            }
+public privileged aspect CandidateSelectionAspect {
+	
+	public pointcut showAvailablePresidents(UrnaCli urna, Voter voter) :
+		call(private boolean UrnaCli.votePresident(Voter)) && target(urna) && args(voter);
+	
+	before(UrnaCli urna, Voter voter) : showAvailablePresidents(urna, voter) {
+		List<President> candidates = urna.currElection.getPresidents();
+        
+		for (President candidate : candidates) {
+            System.out.println(candidate.getNumber() + " - " + candidate.getName() + " do " + candidate.getParty() + "\n");
         }
-    }
+	}
+	
+	public pointcut showAvailableFederalDeputies(UrnaCli urna, Voter voter, int counter) :
+		call(private boolean UrnaCli.voteFederalDeputy(Voter, int)) && target(urna) && args(voter, counter);
+	
+	before(UrnaCli urna, Voter voter, int counter) : showAvailableFederalDeputies(urna, voter, counter) {
+		List<FederalDeputy> candidates = urna.currElection.getFederalDeputies();
+        
+		for (FederalDeputy candidate : candidates) {
+            System.out.println(candidate.getNumber() + " - " + candidate.getName() + " do " + candidate.getParty() + "\n");
+        }
+	}
 }
