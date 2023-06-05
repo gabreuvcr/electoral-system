@@ -11,6 +11,7 @@ import domain.CertifiedProfessional;
 import domain.ElectionController;
 import domain.FederalDeputy;
 import domain.President;
+import domain.Governor;
 import domain.TSEEmployee;
 import domain.TSEProfessional;
 import domain.Voter;
@@ -222,6 +223,68 @@ public class UrnaCli {
 
     }
 
+    private boolean voteGovernor(Voter voter) {
+        print("(ext) Desistir");
+        print("Digite o número do candidato escolhido por você para governador:");
+        String vote = readString();
+        if (vote.equals("ext")) {
+            throw new StopTrap("Saindo da votação");
+        } else if (vote.equals("br")) { // Branco
+            print("Você está votando branco\n");
+            print("(1) Confirmar\n(2) Mudar voto");
+            int confirm = readInt();
+            if (confirm == 1) {
+                currElection.voteProtestForGovernor(voter);
+                return true;
+            } else {
+                return voteGovernor(voter);
+            }
+        } else {
+            try {
+                int voteNumber = Integer.parseInt(vote);
+                // Nulo
+                if (voteNumber == 0) {
+                    print("Você está votando nulo\n");
+                    print("(1) Confirmar\n(2) Mudar voto");
+                    int confirm = readInt();
+                    if (confirm == 1) {
+                        currElection.voteNullForGovernor(voter);
+                        return true;
+                    } else {
+                        return voteGovernor(voter);
+                    }
+                }
+
+                // Normal
+                Governor candidate = currElection.getGovernorByNumber(voter.state, voteNumber);
+                if (candidate == null) {
+                    print("Nenhum candidato encontrado com este número, tente novamente");
+                    print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+                    return voteGovernor(voter);
+                }
+                print(candidate.name + " do " + candidate.party + "(" + candidate.state + ")\n");
+                print("(1) Confirmar\n(2) Mudar voto");
+                int confirm = readInt();
+                if (confirm == 1) {
+                    currElection.voteForGovernor(voter, candidate);
+                    return true;
+                } else if (confirm == 2) {
+                    return voteGovernor(voter);
+                }
+            } catch (Warning e) {
+                print(e.getMessage());
+                return voteGovernor(voter);
+            } catch (Error e) {
+                print(e.getMessage());
+                throw e;
+            } catch (Exception e) {
+                print("Ocorreu um erro inesperado");
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void voterMenu() {
         try {
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
@@ -253,6 +316,11 @@ public class UrnaCli {
 
             if (voteFederalDeputy(voter, 2)) {
                 print("Segundo voto para deputado federal registrado com sucesso");
+            }
+            print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+
+            if (voteGovernor(voter)) {
+                print("Voto para governador registrado com sucesso");
             }
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
 
@@ -289,9 +357,10 @@ public class UrnaCli {
         print("Qual a categoria de seu candidato?\n");
         print("(1) Presidente");
         print("(2) Deputado Federal");
+        print("(3) Governador");
         int candidateType = readInt();
 
-        if (candidateType > 2 || candidateType < 1) {
+        if (candidateType > 3 || candidateType < 1) {
             print("Comando inválido");
             addCandidate(tseProfessional);
         }
@@ -325,6 +394,18 @@ public class UrnaCli {
                     .number(number)
                     .party(party)
                     .build();
+        } else if (candidateType == 3) {
+            print("Qual o estado do candidato?");
+            String state = readString();
+
+            print("\nCadastrar o candidato a governador " + name + " Nº " + number + " do " + party + "(" + state
+                    + ")?");
+            candidate = new Governor.Builder()
+                    .name(name)
+                    .number(number)
+                    .party(party)
+                    .state(state)
+                    .build();
         }
 
         print("(1) Sim\n(2) Não");
@@ -342,9 +423,10 @@ public class UrnaCli {
         print("Qual a categoria de seu candidato?");
         print("(1) Presidente");
         print("(2) Deputado Federal");
+        print("(3) Governador");
         int candidateType = readInt();
 
-        if (candidateType > 2 || candidateType < 1) {
+        if (candidateType > 3 || candidateType < 1) {
             print("Comando inválido");
             removeCandidate(tseProfessional);
         }
@@ -373,6 +455,18 @@ public class UrnaCli {
             print("/Remover o candidato a presidente " + candidate.name + " Nº " + candidate.number + " do "
                     + candidate.party
                     + "?");
+        } else if (candidateType == 3) {
+            print("Qual o estado do candidato?");
+            String state = readString();
+
+            candidate = currElection.getGovernorByNumber(state, number);
+            if (candidate == null) {
+                print("Candidato não encontrado");
+                return;
+            }
+            print("/Remover o candidato a governador " + candidate.name + " Nº " + candidate.number + " do "
+                    + candidate.party + "("
+                    + ((Governor) candidate).state + ")?");
         }
 
         print("(1) Sim\n(2) Não");

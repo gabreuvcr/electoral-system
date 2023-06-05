@@ -169,7 +169,7 @@ public class ElectionController {
         return this.presidentRepository.getByNumber(number);
     }
     
-    public Governor getGovernorByNumber(int number) {
+    public Governor getGovernorByNumber(String number) {
         return this.governorRepository.getByNumber(number);
     }
 
@@ -217,6 +217,10 @@ public class ElectionController {
     
     public List<Governor> getGovernors() {
         return new ArrayList<Governor>(this.governorRepository.getCandidates().values());
+    }
+
+    public Governor getGovernorByNumber(String state, int number) {
+        return this.governorRepository.getByNumber(state + number);
     }
 
     public List<FederalDeputy> getFederalDeputies() {

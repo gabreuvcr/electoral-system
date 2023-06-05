@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 public class ElectionResult {
     public static String produce(
         Map<Integer, President> presidentCandidates,
-        Map<Integer, President> governorCandidates,
+        Map<String, Governor> governorCandidates,
         Map<String, FederalDeputy> federalDeputyCandidates,
         int protestVotesPresident,
         int nullVotesPresident,
@@ -20,6 +20,7 @@ public class ElectionResult {
         var decimalFormater = new DecimalFormat("0.00");
         var presidentRank = new ArrayList<President>();
         var federalDeputyRank = new ArrayList<FederalDeputy>();
+        var governorRank = new ArrayList<Governor>();
 
         var builder = new StringBuilder();
 
@@ -39,11 +40,22 @@ public class ElectionResult {
             federalDeputyRank.add(candidate);
         }
 
+        int totalVotesG = protestVotesGovernor + nullVotesGovernor;
+        for (Map.Entry<String, Governor> candidateEntry : governorCandidates.entrySet()) {
+            Governor candidate = candidateEntry.getValue();
+            totalVotesG += candidate.numVotes;
+            governorRank.add(candidate);
+        }
+
         var sortedFederalDeputyRank = federalDeputyRank.stream()
             .sorted((o1, o2) -> o1.numVotes == o2.numVotes ? 0 : o1.numVotes < o2.numVotes ? 1 : -1)
             .collect(Collectors.toList());
 
         var sortedPresidentRank = presidentRank.stream()
+            .sorted((o1, o2) -> o1.numVotes == o2.numVotes ? 0 : o1.numVotes < o2.numVotes ? 1 : -1)
+            .collect(Collectors.toList());
+
+        var sortedGovernorRank = governorRank.stream()
             .sorted((o1, o2) -> o1.numVotes == o2.numVotes ? 0 : o1.numVotes < o2.numVotes ? 1 : -1)
             .collect(Collectors.toList());
 
@@ -108,6 +120,26 @@ public class ElectionResult {
                     + "% dos votos\n");
             }
         }
+
+        builder.append("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+
+        builder.append("  Votos governador:\n");
+        builder.append("  Votos nulos: " + nullVotesGovernor + " ("
+            + decimalFormater.format((double) nullVotesGovernor / (double) totalVotesG * 100) + "%)\n");
+        builder.append("  Votos brancos: " + protestVotesGovernor + " ("
+            + decimalFormater.format((double) protestVotesGovernor / (double) totalVotesG * 100) + "%)\n");
+        builder.append("  Total: " + totalVotesG + "\n");
+        builder.append("\tNumero - Partido - Nome - Estado - Votos - % dos votos totais\n");
+        for (Governor candidate : sortedGovernorRank) {
+            builder.append(
+                "\t" + candidate.number + " - " + candidate.party + " - " + candidate.state + " - "
+                + candidate.name
+                + " - "
+                + candidate.numVotes + " - "
+                + decimalFormater.format((double) candidate.numVotes / (double) totalVotesG * 100)
+                + "%\n");
+        }
+
 
         return builder.toString();
     }
