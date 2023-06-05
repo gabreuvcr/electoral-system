@@ -12,6 +12,7 @@ import domain.ElectionController;
 import domain.FederalDeputy;
 import domain.President;
 import domain.Governor;
+import domain.StateDeputy;
 import domain.TSEEmployee;
 import domain.TSEProfessional;
 import domain.Voter;
@@ -285,6 +286,71 @@ public class UrnaCli {
         return true;
     }
 
+    private boolean voteStateDeputy(Voter voter, int counter) {
+        print("(ext) Desistir");
+        print("Digite o número do " + counter + "º candidato escolhido por você para deputado estadual:\n");
+        String vote = readString();
+        if (vote.equals("ext")) {
+            throw new StopTrap("Saindo da votação");
+        }
+        // Branco
+        if (vote.equals("br")) {
+            print("Você está votando branco\n");
+            print("(1) Confirmar\n(2) Mudar voto");
+            int confirm = readInt();
+            if (confirm == 1) {
+                currElection.voteProtestForStateDeputy(voter);
+                return true;
+            } else {
+                return voteStateDeputy(voter, counter);
+            }
+        } else {
+            try {
+                int voteNumber = Integer.parseInt(vote);
+                // Nulo
+                if (voteNumber == 0) {
+                    print("Você está votando nulo\n");
+                    print("(1) Confirmar\n(2) Mudar voto\n");
+                    int confirm = readInt();
+                    if (confirm == 1) {
+                        currElection.voteNullForStateDeputy(voter);
+                        return true;
+                    } else {
+                        return voteStateDeputy(voter, counter);
+                    }
+                }
+
+                // Normal
+                StateDeputy candidate = currElection.getStateDeputyByNumber(voter.state, voteNumber);
+                if (candidate == null) {
+                    print("Nenhum candidato encontrado com este número, tente novamente");
+                    print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+                    return voteStateDeputy(voter, counter);
+                }
+                print(candidate.name + " do " + candidate.party + "(" + candidate.state + ")\n");
+                print("(1) Confirmar\n(2) Mudar voto");
+                int confirm = readInt();
+                if (confirm == 1) {
+                    currElection.voteForStateDeputy(voter, candidate);
+                    return true;
+                } else if (confirm == 2) {
+                    return voteStateDeputy(voter, counter);
+                }
+            } catch (Warning e) {
+                print(e.getMessage());
+                return voteStateDeputy(voter, counter);
+            } catch (Error e) {
+                print(e.getMessage());
+                throw e;
+            } catch (Exception e) {
+                print("Ocorreu um erro inesperado");
+                return false;
+            }
+        }
+        return true;
+    }
+
+
     private void voterMenu() {
         try {
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
@@ -324,6 +390,18 @@ public class UrnaCli {
             }
             print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
 
+            if (voteStateDeputy(voter, 1)) {
+                print("Primeiro voto para deputado estadual registrado com sucesso");
+            }
+
+            print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+    
+            if (voteStateDeputy(voter, 2)) {
+                print("Segundo voto para deputado estadual registrado com sucesso");
+            }
+
+            print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+
         } catch (Warning e) {
             print(e.getMessage());
         } catch (StopTrap e) {
@@ -358,9 +436,10 @@ public class UrnaCli {
         print("(1) Presidente");
         print("(2) Deputado Federal");
         print("(3) Governador");
+        print("(4) Deputado Estadual");
         int candidateType = readInt();
 
-        if (candidateType > 3 || candidateType < 1) {
+        if (candidateType > 4 || candidateType < 1) {
             print("Comando inválido");
             addCandidate(tseProfessional);
         }
@@ -406,6 +485,18 @@ public class UrnaCli {
                     .party(party)
                     .state(state)
                     .build();
+        }else if (candidateType == 4) {
+            print("Qual o estado do candidato?");
+            String state = readString();
+
+            print("\nCadastrar o candidato a deputado estadual " + name + " Nº " + number + " do " + party + "(" + state
+                    + ")?");
+            candidate = new StateDeputy.Builder()
+                    .name(name)
+                    .number(number)
+                    .party(party)
+                    .state(state)
+                    .build();
         }
 
         print("(1) Sim\n(2) Não");
@@ -424,9 +515,10 @@ public class UrnaCli {
         print("(1) Presidente");
         print("(2) Deputado Federal");
         print("(3) Governador");
+        print("(4) Deputado Estadual");
         int candidateType = readInt();
 
-        if (candidateType > 3 || candidateType < 1) {
+        if (candidateType > 4 || candidateType < 1) {
             print("Comando inválido");
             removeCandidate(tseProfessional);
         }
@@ -467,6 +559,18 @@ public class UrnaCli {
             print("/Remover o candidato a governador " + candidate.name + " Nº " + candidate.number + " do "
                     + candidate.party + "("
                     + ((Governor) candidate).state + ")?");
+        } else if (candidateType == 4) {
+            print("Qual o estado do candidato?");
+            String state = readString();
+
+            candidate = currElection.getStateDeputyByNumber(state, number);
+            if (candidate == null) {
+                print("Candidato não encontrado");
+                return;
+            }
+            print("/Remover o candidato a deputado estadual " + candidate.name + " Nº " + candidate.number + " do "
+                    + candidate.party + "("
+                    + ((StateDeputy) candidate).state + ")?");
         }
 
         print("(1) Sim\n(2) Não");

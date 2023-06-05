@@ -9,6 +9,7 @@ import domain.interfaces.ITSEProfessionalRepository;
 import domain.interfaces.IVoteRepository;
 import domain.interfaces.IVoterRepository;
 import domain.interfaces.IGovernorRepository;
+import domain.interfaces.IStateDeputyRepository;
 
 import errors.StopTrap;
 import errors.Warning;
@@ -20,6 +21,7 @@ public class ElectionController {
     private final IPresidentRepository presidentRepository;
     private final IGovernorRepository governorRepository;
     private final IFederalDeputyRepository federalDeputyRepository;
+    private final IStateDeputyRepository stateDeputyRepository;
     private final ITSEProfessionalRepository tseProfessionalRepository;
     private final IVoterRepository voterRepository;
     private static ElectionController instance;
@@ -28,6 +30,7 @@ public class ElectionController {
         IPresidentRepository presidentRepository,
         IGovernorRepository governorRepository,
         IFederalDeputyRepository federalDeputyRepository,
+        IStateDeputyRepository stateDeputyRepository,
         IVoteRepository voteRepository,
         ITSEProfessionalRepository tseProfessionalRepository,
         IVoterRepository voterRepository
@@ -36,6 +39,7 @@ public class ElectionController {
         this.presidentRepository = presidentRepository;
         this.governorRepository = governorRepository;
         this.federalDeputyRepository = federalDeputyRepository;
+        this.stateDeputyRepository = stateDeputyRepository;
         this.voteRepository = voteRepository;
         this.tseProfessionalRepository = tseProfessionalRepository;
         this.voterRepository = voterRepository;
@@ -47,6 +51,7 @@ public class ElectionController {
         IPresidentRepository presidentRepository,
         IGovernorRepository governorRepository,
         IFederalDeputyRepository federalDeputyRepository,
+        IStateDeputyRepository stateDeputyRepository,
         IVoteRepository voteRepository,
         ITSEProfessionalRepository tseProfessionalRepository,
         IVoterRepository voterRepository
@@ -57,6 +62,7 @@ public class ElectionController {
                 presidentRepository,
                 governorRepository,
                 federalDeputyRepository,
+                stateDeputyRepository,
                 voteRepository,
                 tseProfessionalRepository,
                 voterRepository
@@ -145,6 +151,34 @@ public class ElectionController {
         this.voteRepository.addVoteForFederalDeputy(voter, federalDeputy);
     }
 
+    public void voteProtestForStateDeputy(Voter voter) {
+        if (this.voteRepository.alreadyVotedForStateDeputy(voter)) {
+            throw new StopTrap("Você não pode votar mais de uma vez para deputado estadual");
+        }
+
+        this.voteRepository.addProtestVoteForStateDeputy(voter);
+    }
+
+    public void voteNullForStateDeputy(Voter voter) {
+        if (this.voteRepository.alreadyVotedForStateDeputy(voter)) {
+            throw new StopTrap("Você não pode votar mais de uma vez para deputado estadual");
+        }
+
+        this.voteRepository.addNullVoteForStateDeputy(voter);
+    }
+
+    public void voteForStateDeputy(Voter voter, StateDeputy stateDeputy) {
+        if (this.voteRepository.alreadyVotedForStateDeputy(voter)) {
+            throw new StopTrap("Você não pode votar mais de uma vez para deputado estadual");
+        }
+
+        if (this.voteRepository.isRepeatStateDeputy(voter, stateDeputy)) {
+            throw new Warning("Você não pode votar mais de uma vez em um mesmo candidato");
+        }
+
+        this.voteRepository.addVoteForStateDeputy(voter, stateDeputy);
+    }
+
     public boolean getStatus() {
         return this.status;
     }
@@ -227,6 +261,14 @@ public class ElectionController {
         return new ArrayList<FederalDeputy>(this.federalDeputyRepository.getCandidates().values());
     }
 
+    public StateDeputy getStateDeputyByNumber(String state, int number) {
+        return this.stateDeputyRepository.getByNumber(state + number);
+    }
+
+    public List<StateDeputy> getStateDeputies() {
+        return new ArrayList<StateDeputy>(this.stateDeputyRepository.getCandidates().values());
+    }
+
     public String getResults(String password) {
         if (!isValid(password)) {
             throw new Warning("Senha inválida");
@@ -240,12 +282,15 @@ public class ElectionController {
             this.presidentRepository.getCandidates(),
             this.governorRepository.getCandidates(),
             this.federalDeputyRepository.getCandidates(), 
+            this.stateDeputyRepository.getCandidates(),
             this.voteRepository.getProtestVotesPresident(), 
             this.voteRepository.getNullVotesPresident(),
             this.voteRepository.getProtestVotesGovernor(), 
             this.voteRepository.getNullVotesGovernor(),
             this.voteRepository.getProtestVotesFederalDeputy(),
-            this.voteRepository.getNullVotesFederalDeputy()
+            this.voteRepository.getNullVotesFederalDeputy(),
+            this.voteRepository.getProtestVotesStateDeputy(),
+            this.voteRepository.getNullVotesStateDeputy()
         );
     }
 }

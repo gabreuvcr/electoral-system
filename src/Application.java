@@ -1,5 +1,6 @@
 import data.repositories.HashFederalDeputyRepository;
 import data.repositories.HashPresidentRepository;
+import data.repositories.HashStateDeputyRepository;
 import data.repositories.HashTSEProfessionalRepository;
 import data.repositories.HashVoteRepository;
 import data.repositories.HashGovernorRepository;
@@ -15,6 +16,7 @@ public class Application {
             new HashPresidentRepository(),
             new HashGovernorRepository(),
             new HashFederalDeputyRepository(),
+            new HashStateDeputyRepository(),
             new HashVoteRepository(),
             new HashTSEProfessionalRepository(),
             new HashVoterRepository()

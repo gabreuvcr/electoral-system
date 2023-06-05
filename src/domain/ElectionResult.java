@@ -10,17 +10,21 @@ public class ElectionResult {
         Map<Integer, President> presidentCandidates,
         Map<String, Governor> governorCandidates,
         Map<String, FederalDeputy> federalDeputyCandidates,
+        Map<String, StateDeputy> stateDeputyCandidates,
         int protestVotesPresident,
         int nullVotesPresident,
         int protestVotesGovernor,
         int nullVotesGovernor,
         int protestVotesFederalDeputy,
-        int nullVotesFederalDeputy
+        int nullVotesFederalDeputy,
+        int protestVotesStateDeputy,
+        int nullVotesStateDeputy
     ) {
         var decimalFormater = new DecimalFormat("0.00");
         var presidentRank = new ArrayList<President>();
         var federalDeputyRank = new ArrayList<FederalDeputy>();
         var governorRank = new ArrayList<Governor>();
+        var stateDeputyRank = new ArrayList<StateDeputy>();
 
         var builder = new StringBuilder();
 
@@ -47,6 +51,13 @@ public class ElectionResult {
             governorRank.add(candidate);
         }
 
+        int totalVotesSD = protestVotesStateDeputy + nullVotesStateDeputy;
+        for (Map.Entry<String, StateDeputy> stateCandidateEntry : stateDeputyCandidates.entrySet()) {
+            StateDeputy stateCandidate = stateCandidateEntry.getValue();
+            totalVotesSD += stateCandidate.numVotes;
+            stateDeputyRank.add(stateCandidate);
+        }
+
         var sortedFederalDeputyRank = federalDeputyRank.stream()
             .sorted((o1, o2) -> o1.numVotes == o2.numVotes ? 0 : o1.numVotes < o2.numVotes ? 1 : -1)
             .collect(Collectors.toList());
@@ -56,6 +67,10 @@ public class ElectionResult {
             .collect(Collectors.toList());
 
         var sortedGovernorRank = governorRank.stream()
+            .sorted((o1, o2) -> o1.numVotes == o2.numVotes ? 0 : o1.numVotes < o2.numVotes ? 1 : -1)
+            .collect(Collectors.toList());
+
+        var sortedStateDeputyRank = stateDeputyRank.stream()
             .sorted((o1, o2) -> o1.numVotes == o2.numVotes ? 0 : o1.numVotes < o2.numVotes ? 1 : -1)
             .collect(Collectors.toList());
 
@@ -140,6 +155,56 @@ public class ElectionResult {
                 + "%\n");
         }
 
+        builder.append("\n\n  Governador eleito:\n");
+        Governor electGovernor = sortedGovernorRank.get(0);
+
+        if (electGovernor.numVotes == 0) {
+            builder.append("  Nenhum candidato foi eleito, pois não houve votos válidos\n");
+        } else {
+            builder.append("  " + electGovernor.name + " do " + electGovernor.party + " com "
+                + decimalFormater.format((double) electGovernor.numVotes / (double) totalVotesG * 100)
+                + "% dos votos\n");
+        }
+
+        builder.append("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
+
+        builder.append("  Votos deputado estadual:\n");
+        builder.append("  Votos nulos: " + nullVotesStateDeputy + " ("
+            + decimalFormater.format((double) nullVotesStateDeputy / (double) totalVotesSD * 100) + "%)\n");
+        builder.append("  Votos brancos: " + protestVotesStateDeputy + " ("
+            + decimalFormater.format((double) protestVotesStateDeputy / (double) totalVotesSD * 100)
+            + "%)\n");
+        builder.append("  Total: " + totalVotesSD + "\n");
+        builder.append("\tNumero - Partido - Nome - Estado - Votos - % dos votos totais\n");
+        for (StateDeputy candidate : sortedStateDeputyRank) {
+            builder.append(
+                "\t" + candidate.number + " - " + candidate.party + " - " + candidate.state + " - "
+                + candidate.name
+                + " - "
+                + candidate.numVotes + " - "
+                + decimalFormater.format((double) candidate.numVotes / (double) totalVotesSD * 100)
+                + "%\n");
+        }
+
+        StateDeputy firstStateDeputy = sortedStateDeputyRank.get(0);
+        StateDeputy secondStateDeputy = sortedStateDeputyRank.get(1);
+        if (firstStateDeputy.numVotes == 0) {
+            builder.append("\n\n  Deputados eleitos:\n");
+            builder.append("  Nenhum candidato foi eleito, pois não houve votos válidos\n");
+            return builder.toString();
+        } else {
+            builder.append("\n\n  Deputados eleitos:\n");
+            builder.append("  1º " + firstStateDeputy.name + " do " + firstStateDeputy.party + " com "
+                + decimalFormater.format((double) firstStateDeputy.numVotes / (double) totalVotesSD * 100)
+                + "% dos votos\n");
+            if (secondStateDeputy.numVotes != 0) {
+                builder.append("  2º " + secondStateDeputy.name + " do " + secondStateDeputy.party + " com "
+                    + decimalFormater.format((double) secondStateDeputy.numVotes / (double) totalVotesSD * 100)
+                    + "% dos votos\n");
+            }
+        }
+
+        builder.append("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n");
 
         return builder.toString();
     }

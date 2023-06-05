@@ -14,11 +14,14 @@ public class HashVoteRepository implements IVoteRepository{
     private int nullVotesPresident;
     private int nullVotesFederalDeputy;
     private int nullVotesGovernor;
+    private int nullVotesStateDeputy;
     private int protestVotesPresident;
     private int protestVotesGovernor;
     private int protestVotesFederalDeputy;
+    private int protestVotesStateDeputy;
     private Map<Voter, Integer> votersPresident = new HashMap<Voter, Integer>();
     private Map<Voter, Integer> votersGovernor = new HashMap<Voter, Integer>();
+    private Map<Voter, Integer> votersStateDeputy = new HashMap<Voter, Integer>();
     private Map<Voter, Integer> votersFederalDeputy = new HashMap<Voter, Integer>();
     private Map<Voter, FederalDeputy> tempFDVote = new HashMap<Voter, FederalDeputy>();
     
@@ -110,6 +113,40 @@ public class HashVoteRepository implements IVoteRepository{
         return false;
     }
 
+    @Override
+    public void addVoteForStateDeputy(Voter voter, Candidate candidate) {
+        votersStateDeputy.put(voter, votersStateDeputy.getOrDefault(voter, 0) + 1);
+        candidate.numVotes++;
+    }
+
+    @Override
+    public void addProtestVoteForStateDeputy(Voter voter) {
+        votersStateDeputy.put(voter, votersStateDeputy.getOrDefault(voter, 0) + 1);
+        protestVotesStateDeputy++;
+    }
+
+    @Override
+    public void addNullVoteForStateDeputy(Voter voter) {
+        votersStateDeputy.put(voter, votersStateDeputy.getOrDefault(voter, 0) + 1);
+        nullVotesStateDeputy++;
+    }
+
+    @Override
+    public boolean alreadyVotedForStateDeputy(Voter voter) {
+        if (votersStateDeputy.get(voter) != null && votersStateDeputy.get(voter) >= 2) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isRepeatStateDeputy(Voter voter, Candidate candidate) {
+        if (votersStateDeputy.get(voter) != null && votersStateDeputy.get(voter).equals(candidate)) {
+            return true;
+        }
+        return false;
+    }
+
     public int getNullVotesPresident() {
         return nullVotesPresident;
     }
@@ -122,6 +159,10 @@ public class HashVoteRepository implements IVoteRepository{
         return nullVotesFederalDeputy;
     }
 
+    public int getNullVotesStateDeputy() {
+        return nullVotesStateDeputy;
+    }
+
     public int getProtestVotesPresident() {
         return protestVotesPresident;
     }
@@ -132,5 +173,9 @@ public class HashVoteRepository implements IVoteRepository{
 
     public int getProtestVotesFederalDeputy() {
         return protestVotesFederalDeputy;
+    }
+
+    public int getProtestVotesStateDeputy() {
+        return protestVotesStateDeputy;
     }
 }

@@ -3,6 +3,7 @@ package domain.interfaces;
 import domain.Candidate;
 import domain.FederalDeputy;
 import domain.President;
+import domain.StateDeputy;
 import domain.Voter;
 import domain.Governor;
 
@@ -28,4 +29,13 @@ public interface IVoteRepository {
     boolean isRepeatFederalDeputy(Voter voter, Candidate candidate);
     int getNullVotesFederalDeputy();
     int getProtestVotesFederalDeputy();
+
+
+    void addVoteForStateDeputy(Voter voter, Candidate candidate);
+    void addProtestVoteForStateDeputy(Voter voter);
+    void addNullVoteForStateDeputy(Voter voter);
+    boolean alreadyVotedForStateDeputy(Voter voter);
+    boolean isRepeatStateDeputy(Voter voter, Candidate candidate);
+    int getNullVotesStateDeputy();
+    int getProtestVotesStateDeputy();
 }
