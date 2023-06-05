@@ -1,3 +1,7 @@
+## Planejamento
+
+![Planejamento](/planejamento.png)
+
 ##  Decisões de projeto 
 - Adicionado padrão Singleton na classe `ElectionController` por existir apenas uma eleição por execução
 - Adicionado padrão Repository. Agora as classes apenas possuem um contrato via interface das funções disponíveis, fazendo com que as implementações de persistência de dados sejam facilmente alteradas
