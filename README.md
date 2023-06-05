@@ -26,8 +26,11 @@
 - ElectionController possui um metodo para cada tipo de voto, que sao utilizados pela UrnaCli.
 - Se para um cargo não houver votos válidos, nenhum candidato será eleito.
 
-## Execução de produtos da LPS 
-- TODO
+## Produtos da LPS 
+- Presidente/Deputado Federal com Exibição de Candidatos
+- Presidente/Deputado Federal sem Exibição de Candidatos
+- Governador/Deputador Estadual com Exibição de Candidatos
+- Governador/Deputador Estadual sem Exibição de Candidatos
   
 ## Dependencias
 
