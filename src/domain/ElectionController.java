@@ -18,27 +18,66 @@ public class ElectionController {
     private final String password;
     private boolean status;
     private final IVoteRepository voteRepository;
-    private final IPresidentRepository presidentRepository;
-    private final IGovernorRepository governorRepository;
-    private final IFederalDeputyRepository federalDeputyRepository;
-    private final IStateDeputyRepository stateDeputyRepository;
+    //#if PresidenteDeputadoFederal 
+//@    private IPresidentRepository presidentRepository;
+//@    private IFederalDeputyRepository federalDeputyRepository;
+    //#elif GovernadorDeputadoEstadual 
+    private IGovernorRepository governorRepository;
+    private IStateDeputyRepository stateDeputyRepository;
+    //#endif
     private final ITSEProfessionalRepository tseProfessionalRepository;
     private final IVoterRepository voterRepository;
     private static ElectionController instance;
+    
+    //#if PresidenteDeputadoFederal 
+//@    private ElectionController(
+//@        String password, 
+//@        IPresidentRepository presidentRepository,
+//@        IFederalDeputyRepository federalDeputyRepository,
+//@        IVoteRepository voteRepository,
+//@        ITSEProfessionalRepository tseProfessionalRepository,
+//@        IVoterRepository voterRepository
+//@    ) {
+//@        this.password = password;
+//@        this.presidentRepository = presidentRepository;
+//@        this.federalDeputyRepository = federalDeputyRepository;
+//@        this.voteRepository = voteRepository;
+//@        this.tseProfessionalRepository = tseProfessionalRepository;
+//@        this.voterRepository = voterRepository;
+//@        this.status = false;
+//@    }
+//@
+//@    public static ElectionController getInstance(
+//@        String password, 
+//@        IPresidentRepository presidentRepository,
+//@        IFederalDeputyRepository federalDeputyRepository,
+//@        IVoteRepository voteRepository,
+//@        ITSEProfessionalRepository tseProfessionalRepository,
+//@        IVoterRepository voterRepository
+//@    ) {
+//@        if (instance == null) {
+//@            instance = new ElectionController(
+//@                password,
+//@                presidentRepository,
+//@                federalDeputyRepository,
+//@                voteRepository,
+//@                tseProfessionalRepository,
+//@                voterRepository
+//@            );
+//@        }
+//@        return instance;
+//@    }
+    //#elif GovernadorDeputadoEstadual  
     private ElectionController(
         String password, 
-        IPresidentRepository presidentRepository,
         IGovernorRepository governorRepository,
-        IFederalDeputyRepository federalDeputyRepository,
         IStateDeputyRepository stateDeputyRepository,
         IVoteRepository voteRepository,
         ITSEProfessionalRepository tseProfessionalRepository,
         IVoterRepository voterRepository
     ) {
         this.password = password;
-        this.presidentRepository = presidentRepository;
         this.governorRepository = governorRepository;
-        this.federalDeputyRepository = federalDeputyRepository;
         this.stateDeputyRepository = stateDeputyRepository;
         this.voteRepository = voteRepository;
         this.tseProfessionalRepository = tseProfessionalRepository;
@@ -48,9 +87,7 @@ public class ElectionController {
 
     public static ElectionController getInstance(
         String password, 
-        IPresidentRepository presidentRepository,
         IGovernorRepository governorRepository,
-        IFederalDeputyRepository federalDeputyRepository,
         IStateDeputyRepository stateDeputyRepository,
         IVoteRepository voteRepository,
         ITSEProfessionalRepository tseProfessionalRepository,
@@ -59,9 +96,7 @@ public class ElectionController {
         if (instance == null) {
             instance = new ElectionController(
                 password,
-                presidentRepository,
                 governorRepository,
-                federalDeputyRepository,
                 stateDeputyRepository,
                 voteRepository,
                 tseProfessionalRepository,
@@ -70,7 +105,8 @@ public class ElectionController {
         }
         return instance;
     }
-
+    //#endif
+    
     private Boolean isValid(String password) {
         return this.password.equals(password);
     }
@@ -198,55 +234,80 @@ public class ElectionController {
 
         this.status = false;
     }
-
-    public President getPresidentByNumber(int number) {
-        return this.presidentRepository.getByNumber(number);
-    }
     
-    public Governor getGovernorByNumber(String number) {
-        return this.governorRepository.getByNumber(number);
+     public Voter getVoterByElectorCard(String electoralCard) {
+         return this.voterRepository.getByElectoralCard(electoralCard);
+    }
+
+    public TSEProfessional getTSEProfessionalByUser(String user) {
+        return this.tseProfessionalRepository.getByUser(user);
     }
 
     public void addCandidate(Candidate candidate, String password) {
         if (!isValid(password)) {
             throw new Warning("Senha inválida");
         }
-
-        if (candidate instanceof President) {
-            this.presidentRepository.addCandidate((President) candidate);
-        } else if (candidate instanceof Governor) {
+        
+        //#if PresidenteDeputadoFederal 
+//@        if (candidate instanceof President) {
+//@            this.presidentRepository.addCandidate((President) candidate);
+//@        }
+//@        if (candidate instanceof FederalDeputy) {
+//@        	this.federalDeputyRepository.addCandidate((FederalDeputy) candidate);
+//@        }
+        //#elif GovernadorDeputadoEstadual 
+        if (candidate instanceof Governor) {
             this.governorRepository.addCandidate((Governor) candidate);
-        } else if (candidate instanceof FederalDeputy) {
-            this.federalDeputyRepository.addCandidate((FederalDeputy) candidate);
         }
+        if (candidate instanceof StateDeputy) {
+        	this.stateDeputyRepository.addCandidate((StateDeputy) candidate);
+        }
+        //#endif
     }
 
     public void removeCandidate(Candidate candidate, String password) {
         if (!isValid(password)) {
             throw new Warning("Senha inválida");
         }
-
-        if (candidate instanceof President) {
-            this.presidentRepository.removeCandidate((President) candidate);
-        } else if (candidate instanceof FederalDeputy) {
-            this.federalDeputyRepository.removeCandidate((FederalDeputy) candidate);
+        
+        //#if PresidenteDeputadoFederal 
+//@        if (candidate instanceof President) {
+//@            this.presidentRepository.removeCandidate((President) candidate);
+//@        }
+//@        if (candidate instanceof FederalDeputy) {
+//@            this.federalDeputyRepository.removeCandidate((FederalDeputy) candidate);
+//@        }
+        //#elif GovernadorDeputadoEstadual 
+        if (candidate instanceof Governor) {
+        	this.governorRepository.removeCandidate((Governor) candidate);
         }
-    }
-
-    public FederalDeputy getFederalDeputyByNumber(String state, int number) {
-        return this.federalDeputyRepository.getByNumber(state + number);
-    }
-
-    public Voter getVoterByElectorCard(String electoralCard) {
-        return this.voterRepository.getByElectoralCard(electoralCard);
-    }
-
-    public TSEProfessional getTSEProfessionalByUser(String user) {
-        return this.tseProfessionalRepository.getByUser(user);
+        if (candidate instanceof StateDeputy) {
+        	this.stateDeputyRepository.removeCandidate((StateDeputy) candidate);
+        }
+        //#endif
     }
     
-    public List<President> getPresidents() {
-        return new ArrayList<President>(this.presidentRepository.getCandidates().values());
+    //#if PresidenteDeputadoFederal 
+//@    public President getPresidentByNumber(int number) {
+//@        return this.presidentRepository.getByNumber(number);
+//@    }
+//@    
+//@    public FederalDeputy getFederalDeputyByNumber(String state, int number) {
+//@        return this.federalDeputyRepository.getByNumber(state + number);
+//@    }
+//@
+//@    
+//@    public List<President> getPresidents() {
+//@        return new ArrayList<President>(this.presidentRepository.getCandidates().values());
+//@    }
+//@    
+//@    public List<FederalDeputy> getFederalDeputies() {
+//@        return new ArrayList<FederalDeputy>(this.federalDeputyRepository.getCandidates().values());
+//@    }
+//@    
+    //#elif GovernadorDeputadoEstadual 
+    public Governor getGovernorByNumber(String number) {
+        return this.governorRepository.getByNumber(number);
     }
     
     public List<Governor> getGovernors() {
@@ -257,10 +318,6 @@ public class ElectionController {
         return this.governorRepository.getByNumber(state + number);
     }
 
-    public List<FederalDeputy> getFederalDeputies() {
-        return new ArrayList<FederalDeputy>(this.federalDeputyRepository.getCandidates().values());
-    }
-
     public StateDeputy getStateDeputyByNumber(String state, int number) {
         return this.stateDeputyRepository.getByNumber(state + number);
     }
@@ -268,6 +325,7 @@ public class ElectionController {
     public List<StateDeputy> getStateDeputies() {
         return new ArrayList<StateDeputy>(this.stateDeputyRepository.getCandidates().values());
     }
+    //#endif
 
     public String getResults(String password) {
         if (!isValid(password)) {
@@ -279,18 +337,21 @@ public class ElectionController {
         }
 
         return ElectionResult.produce(
-            this.presidentRepository.getCandidates(),
+        	//#if PresidenteDeputadoFederal
+//@            this.presidentRepository.getCandidates(),
+//@            this.federalDeputyRepository.getCandidates(),
+//@            this.voteRepository.getProtestVotesPresident(), 
+//@            this.voteRepository.getNullVotesPresident(),
+//@            this.voteRepository.getProtestVotesFederalDeputy(),
+//@            this.voteRepository.getNullVotesFederalDeputy()
+            //#elif GovernadorDeputadoEstadual 
             this.governorRepository.getCandidates(),
-            this.federalDeputyRepository.getCandidates(), 
             this.stateDeputyRepository.getCandidates(),
-            this.voteRepository.getProtestVotesPresident(), 
-            this.voteRepository.getNullVotesPresident(),
             this.voteRepository.getProtestVotesGovernor(), 
             this.voteRepository.getNullVotesGovernor(),
-            this.voteRepository.getProtestVotesFederalDeputy(),
-            this.voteRepository.getNullVotesFederalDeputy(),
             this.voteRepository.getProtestVotesStateDeputy(),
             this.voteRepository.getNullVotesStateDeputy()
+            //#endif
         );
     }
 }

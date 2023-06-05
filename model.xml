@@ -12,7 +12,7 @@
 		<graphics key="layoutalgorithm" value="0"/>
 	</properties>
 	<struct>
-		<and abstract="true" mandatory="true" name="Eleição">
+		<and abstract="true" mandatory="true" name="Eleicao">
 			<graphics key="position" value="505,40"/>
 			<graphics key="collapsed" value="false"/>
 			<and mandatory="true" name="Eleitor">
@@ -21,7 +21,7 @@
 					<graphics key="position" value="376,173"/>
 					<graphics key="collapsed" value="false"/>
 				</feature>
-				<and name="Email">
+				<and name="E-mail">
 					<graphics key="position" value="183,170"/>
 					<graphics key="collapsed" value="false"/>
 					<feature mandatory="true" name="EnvioConfirmacaoEmail">

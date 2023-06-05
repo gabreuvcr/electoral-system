@@ -13,16 +13,16 @@ public privileged aspect CandidateSelectionAspect {
 		call(private boolean UrnaCli.votePresident(Voter)) && target(urna) && args(voter);
 
 	before(UrnaCli urna, Voter voter) : showAvailablePresidents(urna, voter) {
-		//#if ExibicaoCandidatos
-		List<President> candidates = urna.currElection.getPresidents();
-		System.out.println("Esses são os candidatos a Presidente:\n");
-		System.out.println("Número | Nome | Partido\n");
-
-		for (President candidate : candidates) {
-            System.out.println(candidate.getNumber() + " - " + candidate.getName() + " do " + candidate.getParty());
-        }
-
-		System.out.println("\n");
+		//#if ExibicaoCandidatos && PresidenteDeputadoFederal 
+//@		List<President> candidates = urna.currElection.getPresidents();
+//@		System.out.println("Esses são os candidatos a Presidente:\n");
+//@		System.out.println("Número | Nome | Partido\n");
+//@
+//@		for (President candidate : candidates) {
+//@            System.out.println(candidate.getNumber() + " - " + candidate.getName() + " do " + candidate.getParty());
+//@        }
+//@
+//@		System.out.println("\n");
 		//#endif
 	}
 
@@ -31,17 +31,16 @@ public privileged aspect CandidateSelectionAspect {
 		call(private boolean UrnaCli.voteFederalDeputy(Voter, int)) && target(urna) && args(voter, counter);
 
 	before(UrnaCli urna, Voter voter, int counter) : showAvailableFederalDeputies(urna, voter, counter) {
-		//#if ExibicaoCandidatos
-		List<FederalDeputy> candidates = urna.currElection.getFederalDeputies();
-        System.out.println("Esses são os candidatos a Deputado Federal:\n");
-		System.out.println("Número | Nome | Partido\n");
-
-		for (FederalDeputy candidate : candidates) {
-            System.out.println(candidate.getNumber() + " - " + candidate.getName() + " do " + candidate.getParty());
-        }
+		//#if ExibicaoCandidatos && PresidenteDeputadoFederal 
+//@		List<FederalDeputy> candidates = urna.currElection.getFederalDeputies();
+//@        System.out.println("Esses são os candidatos a Deputado Federal:\n");
+//@		System.out.println("Número | Nome | Partido\n");
+//@
+//@		for (FederalDeputy candidate : candidates) {
+//@            System.out.println(candidate.getNumber() + " - " + candidate.getName() + " do " + candidate.getParty());
+//@        }
+//@		System.out.println("\n");
 		//#endif
-
-		System.out.println("\n");
 	}
 
 	// Governor candidates
@@ -49,6 +48,7 @@ public privileged aspect CandidateSelectionAspect {
 		call(private boolean UrnaCli.voteGovernor(Voter)) && target(urna) && args(voter);
 
 	before(UrnaCli urna, Voter voter) : showAvailableGovernors(urna, voter) {
+		//#if ExibicaoCandidatos && GovernadorDeputadoEstadual 
 		List<Governor> candidates = urna.currElection.getGovernors();
 		System.out.println("Esses são os candidatos a Governador:\n");
 		System.out.println("Número | Nome | Partido\n");
@@ -56,8 +56,8 @@ public privileged aspect CandidateSelectionAspect {
 		for (Governor candidate : candidates) {
 			System.out.println(candidate.getNumber() + " - " + candidate.getName() + " do " + candidate.getParty());
 		}
-
 		System.out.println("\n");
+		//#endif
 	}
 
 	// State Deputy candidates
@@ -65,14 +65,15 @@ public privileged aspect CandidateSelectionAspect {
 		call(private boolean UrnaCli.voteStateDeputy(Voter, int)) && target(urna) && args(voter, counter);
 
 	before(UrnaCli urna, Voter voter, int counter) : showAvailableStateDeputies(urna, voter, counter) {
-		List<FederalDeputy> candidates = urna.currElection.getStateDeputies();
+		//#if ExibicaoCandidatos && GovernadorDeputadoEstadual 
+		List<StateDeputy> candidates = urna.currElection.getStateDeputies();
 		System.out.println("Esses são os candidatos a Deputado Estadual:\n");
 		System.out.println("Número | Nome | Partido\n");
 
-		for (FederalDeputy candidate : candidates) {
+		for (StateDeputy candidate : candidates) {
 			System.out.println(candidate.getNumber() + " - " + candidate.getName() + " do " + candidate.getParty());
 		}
-
 		System.out.println("\n");
+		//#endif
 	}
 }

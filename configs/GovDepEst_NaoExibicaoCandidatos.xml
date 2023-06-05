@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <configuration>
-	<feature automatic="selected" name="Eleição"/>
+	<feature automatic="selected" name="Eleicao"/>
 	<feature automatic="selected" name="Eleitor"/>
 	<feature automatic="selected" name="TituloEleitor"/>
-	<feature name="Email"/>
+	<feature name="E-mail"/>
 	<feature name="EnvioConfirmacaoEmail"/>
 	<feature automatic="selected" name="ConfirmacaoDados"/>
 	<feature automatic="selected" name="TipoVoto"/>
@@ -14,11 +14,11 @@
 	<feature automatic="selected" name="IniciaSenha"/>
 	<feature automatic="selected" name="FinalizaSenha"/>
 	<feature automatic="selected" name="TipoEleicao"/>
-	<feature manual="selected" name="PresidenteDeputadoFederal"/>
-	<feature name="GovernadorDeputadoEstadual"/>
+	<feature name="PresidenteDeputadoFederal"/>
+	<feature manual="selected" name="GovernadorDeputadoEstadual"/>
 	<feature automatic="selected" name="Resultados"/>
 	<feature automatic="selected" name="Vencedores"/>
 	<feature automatic="selected" name="Estatistica"/>
 	<feature name="SegundoTurno"/>
-	<feature manual="selected" name="ExibicaoCandidatos"/>
+	<feature name="ExibicaoCandidatos"/>
 </configuration>

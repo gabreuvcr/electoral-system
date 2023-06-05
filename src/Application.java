@@ -10,17 +10,26 @@ import view.UrnaCli;
 
 public class Application {
     public static void main(String[] args) {
-        
-        ElectionController currElection = ElectionController.getInstance(
-            "password",
-            new HashPresidentRepository(),
-            new HashGovernorRepository(),
-            new HashFederalDeputyRepository(),
-            new HashStateDeputyRepository(),
-            new HashVoteRepository(),
-            new HashTSEProfessionalRepository(),
-            new HashVoterRepository()
-        );
+    	ElectionController currElection;
+    	//#if PresidenteDeputadoFederal 
+//@        currElection = ElectionController.getInstance(
+//@            "password",
+//@            new HashPresidentRepository(), 
+//@            new HashFederalDeputyRepository(),                
+//@            new HashVoteRepository(),
+//@            new HashTSEProfessionalRepository(),
+//@            new HashVoterRepository()
+//@        );
+        //#elif GovernadorDeputadoEstadual
+        currElection = ElectionController.getInstance(
+                "password",    
+                new HashGovernorRepository(),
+                new HashStateDeputyRepository(),
+                new HashVoteRepository(),
+                new HashTSEProfessionalRepository(),
+                new HashVoterRepository()
+            );
+        //#endif
 
         UrnaCli urnaCli = new UrnaCli(currElection);
         urnaCli.init();

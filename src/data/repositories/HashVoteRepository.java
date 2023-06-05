@@ -6,6 +6,7 @@ import java.util.Map;
 import domain.Candidate;
 import domain.FederalDeputy;
 import domain.President;
+import domain.StateDeputy;
 import domain.Voter;
 import domain.interfaces.IVoteRepository;
 import domain.Governor;
@@ -24,6 +25,7 @@ public class HashVoteRepository implements IVoteRepository{
     private Map<Voter, Integer> votersStateDeputy = new HashMap<Voter, Integer>();
     private Map<Voter, Integer> votersFederalDeputy = new HashMap<Voter, Integer>();
     private Map<Voter, FederalDeputy> tempFDVote = new HashMap<Voter, FederalDeputy>();
+    private Map<Voter, StateDeputy> tempSDVote = new HashMap<Voter, StateDeputy>();
     
     @Override
     public void addVoteForPresident(Voter voter, President president) {
@@ -114,9 +116,10 @@ public class HashVoteRepository implements IVoteRepository{
     }
 
     @Override
-    public void addVoteForStateDeputy(Voter voter, Candidate candidate) {
+    public void addVoteForStateDeputy(Voter voter, StateDeputy stateDeputy) {
+    	tempSDVote.put(voter, stateDeputy);
         votersStateDeputy.put(voter, votersStateDeputy.getOrDefault(voter, 0) + 1);
-        candidate.numVotes++;
+        stateDeputy.numVotes++;
     }
 
     @Override
@@ -141,7 +144,7 @@ public class HashVoteRepository implements IVoteRepository{
 
     @Override
     public boolean isRepeatStateDeputy(Voter voter, Candidate candidate) {
-        if (votersStateDeputy.get(voter) != null && votersStateDeputy.get(voter).equals(candidate)) {
+        if (tempSDVote.get(voter) != null && tempSDVote.get(voter).equals((StateDeputy)candidate)) {
             return true;
         }
         return false;

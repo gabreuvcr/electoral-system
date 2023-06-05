@@ -31,7 +31,7 @@ public interface IVoteRepository {
     int getProtestVotesFederalDeputy();
 
 
-    void addVoteForStateDeputy(Voter voter, Candidate candidate);
+    void addVoteForStateDeputy(Voter voter, StateDeputy stateDeputy);
     void addProtestVoteForStateDeputy(Voter voter);
     void addNullVoteForStateDeputy(Voter voter);
     boolean alreadyVotedForStateDeputy(Voter voter);
